@@ -446,6 +446,44 @@ table.rtbl td:first-child{font-weight:700;color:var(--t1);}
   .ntab{padding:10px 8px;font-size:11px;}
   .admin-btn, .theme-btn{font-size:11px;padding:5px 8px;}
 }
+
+.install-fab{
+  position:fixed;bottom:26px;right:26px;
+  display:flex;align-items:center;gap:8px;
+  padding:12px 18px;border-radius:30px;
+  background:linear-gradient(135deg,#1A6B52,#2D9E7A,#4FBE9A);
+  background-size:200% 200%;
+  border:2px solid #7BD9B8;color:#E0FFF0;
+  font-family:'Tajawal',sans-serif;font-weight:800;
+  font-size:14px;cursor:pointer;
+  box-shadow:0 4px 22px rgba(45,158,122,0.55),0 0 38px rgba(79,190,154,0.30);
+  z-index:500;
+  animation:installFabPulse 2s infinite,installFabGrad 4s infinite;
+  text-shadow:0 0 8px rgba(224,255,240,0.4);
+  transition:transform .2s;
+}
+.install-fab:hover{transform:scale(1.08) translateY(-2px);}
+.install-fab.installed{display:none;}
+.install-fab-label{white-space:nowrap;}
+@keyframes installFabPulse{
+  0%,100%{box-shadow:0 4px 22px rgba(45,158,122,0.55),0 0 38px rgba(79,190,154,0.30);}
+  50%{box-shadow:0 4px 32px rgba(45,158,122,0.75),0 0 60px rgba(79,190,154,0.45);}
+}
+@keyframes installFabGrad{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+}
+
+@media(max-width:760px){
+  .install-fab{
+    right:auto;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:auto;top:calc(100vh - 158px);
+    padding:10px 16px;font-size:13px;
+  }
+  .install-fab:hover{transform:translateX(-50%) scale(1.05);}
+}
 </style>
 </head>
 <body>
@@ -542,6 +580,10 @@ table.rtbl td:first-child{font-weight:700;color:var(--t1);}
 </div>
 
 <button class="fab" onclick="toggleBot()">🤖<span class="fab-badge">AI</span></button>
+<button class="install-fab" id="install-fab" onclick="installApp()" title="ثبّت التطبيق على جهازك">
+  📲
+  <span class="install-fab-label">ثبّت التطبيق</span>
+</button>
 <div class="bot-panel" id="bot-panel">
   <div class="bot-hd">
     <div class="bot-hd-title">🤖 رسبي بوت الذكي</div>
@@ -1440,7 +1482,45 @@ function generatePDF(type){
     body += '</table>';
   }
   
-  const html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>'+(type==="full"?"رسبي مينيو":"التحليل الشامل")+'</title><style>body{font-family:Tajawal,Arial,sans-serif;padding:30px;line-height:1.6;color:#333;}h1{font-size:28px;}h2{font-size:20px;}h3{font-size:16px;}@media print{body{padding:15px;}}</style><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"></head><body>'+body+'<div style="text-align:center;margin-top:30px;color:#999;font-size:11px;">رسبي | ب لبن قطر — إدارة تشغيل قطر</div><script>setTimeout(function(){window.print();}, 800);</'+'script></body></html>';
+  const html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>'+(type==="full"?"رسبي مينيو":"التحليل الشامل")+'</title><style>body{font-family:Tajawal,Arial,sans-serif;padding:30px;line-height:1.6;color:#333;}h1{font-size:28px;}h2{font-size:20px;}h3{font-size:16px;}@media print{body{padding:15px;}}
+.install-fab{
+  position:fixed;bottom:26px;right:26px;
+  display:flex;align-items:center;gap:8px;
+  padding:12px 18px;border-radius:30px;
+  background:linear-gradient(135deg,#1A6B52,#2D9E7A,#4FBE9A);
+  background-size:200% 200%;
+  border:2px solid #7BD9B8;color:#E0FFF0;
+  font-family:'Tajawal',sans-serif;font-weight:800;
+  font-size:14px;cursor:pointer;
+  box-shadow:0 4px 22px rgba(45,158,122,0.55),0 0 38px rgba(79,190,154,0.30);
+  z-index:500;
+  animation:installFabPulse 2s infinite,installFabGrad 4s infinite;
+  text-shadow:0 0 8px rgba(224,255,240,0.4);
+  transition:transform .2s;
+}
+.install-fab:hover{transform:scale(1.08) translateY(-2px);}
+.install-fab.installed{display:none;}
+.install-fab-label{white-space:nowrap;}
+@keyframes installFabPulse{
+  0%,100%{box-shadow:0 4px 22px rgba(45,158,122,0.55),0 0 38px rgba(79,190,154,0.30);}
+  50%{box-shadow:0 4px 32px rgba(45,158,122,0.75),0 0 60px rgba(79,190,154,0.45);}
+}
+@keyframes installFabGrad{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+}
+
+@media(max-width:760px){
+  .install-fab{
+    right:auto;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:auto;top:calc(100vh - 158px);
+    padding:10px 16px;font-size:13px;
+  }
+  .install-fab:hover{transform:translateX(-50%) scale(1.05);}
+}
+</style><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"></head><body>'+body+'<div style="text-align:center;margin-top:30px;color:#999;font-size:11px;">رسبي | ب لبن قطر — إدارة تشغيل قطر</div><script>setTimeout(function(){window.print();}, 800);</'+'script></body></html>';
   
   w.document.write(html);
   w.document.close();
@@ -1579,6 +1659,7 @@ if(isStandalone){
   setTimeout(()=>{
     const b = $("install-banner"); if(b) b.classList.add("hidden");
     const nb = $("install-nav-btn"); if(nb) nb.classList.add("installed");
+    const ifab = $("install-fab"); if(ifab) ifab.classList.add("installed");
   }, 100);
 }
 
@@ -1593,29 +1674,26 @@ window.addEventListener("beforeinstallprompt", (e) => {
 window.addEventListener("appinstalled", () => {
   $("install-banner").classList.add("hidden");
   $("install-nav-btn").classList.add("installed");
+  const ifab = $("install-fab"); if(ifab) ifab.classList.add("installed");
   deferredPrompt = null;
   showToast("تم تثبيت التطبيق بنجاح! 🎉", "ok");
 });
 
 function installApp(){
-  // Already installed
   if(isStandalone){
     showToast("التطبيق مثبت بالفعل ✅", "ok");
     return;
   }
   
-  // iOS - show instructions
-  if(isIOS){
-    showIOSInstructions();
-    return;
-  }
-  
-  // Native prompt available
+  // If native prompt available, try it first
   if(deferredPrompt){
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then((r)=>{
       if(r.outcome === 'accepted'){
         showToast("جاري التثبيت... ⏳", "ok");
+      } else {
+        // User dismissed - show manual instructions as backup
+        showManualInstructions();
       }
       deferredPrompt = null;
       $("install-banner").classList.add("hidden");
@@ -1623,7 +1701,7 @@ function installApp(){
     return;
   }
   
-  // Fallback: show manual instructions
+  // No native prompt? Always show comprehensive instructions
   showManualInstructions();
 }
 
@@ -1667,26 +1745,137 @@ function showManualInstructions(){
   mb.innerHTML = "";
   mb.className = "modal";
   mb.appendChild(el("button", {class:"modal-x", text:"✕", onclick:closeOverlay}));
-  mb.appendChild(el("div", {class:"modal-title", text:"📲 تثبيت التطبيق"}));
+  mb.appendChild(el("div", {class:"modal-title", text:"📲 ثبّت التطبيق على جهازك"}));
   
-  const steps = el("div");
-  steps.style.cssText = "color:var(--t1);font-size:14px;line-height:1.9;";
-  steps.innerHTML = `
-    <div style="padding:12px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);margin-bottom:10px;">
-      <b style="color:var(--or3);">📱 على الموبايل (Chrome):</b><br>
-      افتح قائمة المتصفح ⋮ → <b>"تثبيت التطبيق"</b>
+  const intro = el("div");
+  intro.style.cssText = "color:var(--t2);font-size:14px;margin-bottom:16px;line-height:1.7;text-align:center;";
+  intro.innerHTML = "اختر نوع جهازك للحصول على خطوات التثبيت المناسبة 👇";
+  mb.appendChild(intro);
+  
+  const tabs = el("div");
+  tabs.style.cssText = "display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;";
+  
+  const tabAndroid = el("button", {text:"🤖 Android"});
+  const tabIOS = el("button", {text:"🍎 iPhone"});
+  const tabPC = el("button", {text:"💻 Windows/Mac"});
+  const tabAPK = el("button", {text:"⚡ ملف APK"});
+  
+  const tabStyle = "flex:1;min-width:90px;padding:10px;background:var(--glowS);border:1px solid var(--or2);color:var(--or3);border-radius:8px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;";
+  const tabActiveStyle = tabStyle + "background:var(--or2);color:#fff;";
+  
+  [tabAndroid, tabIOS, tabPC, tabAPK].forEach(t=>t.setAttribute('style', tabStyle));
+  
+  const content = el("div");
+  content.style.cssText = "padding:14px;background:var(--bg3);border:1.5px solid var(--bdr);border-radius:12px;color:var(--t1);font-size:14px;line-height:2;min-height:240px;";
+  
+  function setTab(tab, html){
+    [tabAndroid, tabIOS, tabPC, tabAPK].forEach(t=>t.setAttribute('style', tabStyle));
+    tab.setAttribute('style', tabActiveStyle);
+    content.innerHTML = html;
+  }
+  
+  tabAndroid.onclick = function(){ setTab(tabAndroid, `
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">1</span>
+      <div>افتح اللينك في <b style="color:var(--or3)">Google Chrome</b></div>
     </div>
-    <div style="padding:12px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);margin-bottom:10px;">
-      <b style="color:var(--or3);">💻 على اللاب توب (Chrome/Edge):</b><br>
-      انظر إلى شريط العنوان → اضغط أيقونة <b>⊕ التثبيت</b><br>
-      أو من القائمة ⋮ → <b>"تثبيت رسبي مينيو..."</b>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">2</span>
+      <div>اضغط قائمة المتصفح <b style="color:var(--or3);font-size:18px">⋮</b> (3 نقاط فوق على اليمين)</div>
     </div>
-    <div style="padding:12px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);">
-      <b style="color:var(--or3);">🍎 على iPhone (Safari):</b><br>
-      زر المشاركة ⬆️ → <b>"Add to Home Screen"</b>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">3</span>
+      <div>اختر <b style="color:var(--or3)">"Install app"</b> أو <b style="color:var(--or3)">"Add to Home screen"</b></div>
     </div>
-  `;
-  mb.appendChild(steps);
+    <div style="display:flex;align-items:flex-start;gap:10px;">
+      <span style="background:#34A853;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">✓</span>
+      <div>الأيقونة هتظهر على الشاشة الرئيسية مثل أي تطبيق ✨</div>
+    </div>
+  `); };
+  
+  tabIOS.onclick = function(){ setTab(tabIOS, `
+    <div style="padding:8px;background:rgba(255,107,0,0.10);border:1px dashed var(--or2);border-radius:8px;margin-bottom:14px;font-size:12px;text-align:center;">
+      ⚠️ <b>مهم:</b> لازم تستخدم <b style="color:var(--or3)">Safari</b> وليس Chrome
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">1</span>
+      <div>افتح اللينك في <b style="color:var(--or3)">Safari</b></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">2</span>
+      <div>اضغط زر المشاركة <b style="font-size:20px">⬆️</b> في الأسفل (مربع مع سهم)</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">3</span>
+      <div>اسحب لأسفل واختر <b style="color:var(--or3)">"Add to Home Screen"</b></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;">
+      <span style="background:#34A853;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">✓</span>
+      <div>اضغط <b style="color:var(--or3)">Add</b> ← التطبيق هيظهر على الشاشة 🎉</div>
+    </div>
+  `); };
+  
+  tabPC.onclick = function(){ setTab(tabPC, `
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">1</span>
+      <div>افتح اللينك في <b style="color:var(--or3)">Chrome</b> أو <b style="color:var(--or3)">Edge</b></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">2</span>
+      <div>انظر يسار شريط العنوان (URL bar) — هتلاقي أيقونة شاشة بسهم <b style="color:var(--or3);font-size:18px">⊕</b></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">3</span>
+      <div>اضغطها → <b style="color:var(--or3)">Install</b></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;">
+      <span style="background:#34A853;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">✓</span>
+      <div>هيظهر في قائمة Start + سطح المكتب + Taskbar ✨</div>
+    </div>
+    <div style="margin-top:14px;padding:10px;background:var(--glowS);border:1px solid var(--bdr);border-radius:8px;font-size:12px;">
+      💡 <b>بديل:</b> من قائمة المتصفح ⋮ → "Install Rasbi" أو "More tools" → "Create shortcut"
+    </div>
+  `); };
+  
+  tabAPK.onclick = function(){ setTab(tabAPK, `
+    <div style="padding:10px;background:linear-gradient(135deg,rgba(45,158,122,0.15),rgba(79,190,154,0.10));border:1px solid var(--or2);border-radius:10px;margin-bottom:14px;">
+      🎯 <b style="color:var(--or3)">احصل على ملف .apk حقيقي تثبته كأي تطبيق من واتساب!</b>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">1</span>
+      <div>اذهب إلى الموقع المجاني: <a href="https://www.pwabuilder.com" target="_blank" style="color:var(--or3);font-weight:800;text-decoration:underline">pwabuilder.com</a></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">2</span>
+      <div>ضع لينك Vercel الخاص بالداشبورد واضغط <b style="color:var(--or3)">Start</b></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">3</span>
+      <div>اضغط <b style="color:var(--or3)">Package for Stores</b> → <b style="color:var(--or3)">Android</b></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;">
+      <span style="background:var(--or2);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">4</span>
+      <div>حمّل ملف <b style="color:var(--or3)">.apk</b> وارسله على واتساب لأي حد</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;">
+      <span style="background:#34A853;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">✓</span>
+      <div>الموظف يضغط على الملف → التطبيق يتثبت مباشرة! 🎉</div>
+    </div>
+    <div style="margin-top:14px;padding:10px;background:var(--glowS);border:1px solid var(--bdr);border-radius:8px;font-size:12px;text-align:center;">
+      💻 نفس الموقع يولّد ملفات للويندوز <b>.msix</b> والماك أيضاً
+    </div>
+  `); };
+  
+  tabs.appendChild(tabAndroid);
+  tabs.appendChild(tabIOS);
+  tabs.appendChild(tabPC);
+  tabs.appendChild(tabAPK);
+  mb.appendChild(tabs);
+  mb.appendChild(content);
+  
+  // Default to Android (most common)
+  tabAndroid.click();
+  
   $("overlay").classList.add("open");
 }
 
