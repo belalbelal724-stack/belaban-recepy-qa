@@ -171,14 +171,32 @@ body{background:var(--bg);color:var(--t1);font-family:'Tajawal',sans-serif;direc
 }
 .ntab:hover{color:var(--or2);}
 .ntab.active{color:var(--or3);border-bottom-color:var(--or2);text-shadow:0 0 10px var(--glow);}
-.theme-btn{
-  margin-right:auto;padding:7px 14px;
+.theme-btn{padding:7px 14px;
   background:var(--bg3);border:1.5px solid var(--bdr);
   border-radius:22px;cursor:pointer;font-size:14px;
   color:var(--t2);font-family:'Tajawal',sans-serif;
   white-space:nowrap;transition:all .2s;flex-shrink:0;font-weight:700;
 }
 .theme-btn:hover{border-color:var(--or2);color:var(--or3);}
+.install-nav-btn{
+  margin-right:auto;padding:7px 14px;
+  background:linear-gradient(135deg,#1A6B52,#2D9E7A);
+  color:#E0FFF0;border:1.5px solid #4FBE9A;
+  border-radius:22px;cursor:pointer;font-size:13px;
+  font-family:'Tajawal',sans-serif;font-weight:800;
+  white-space:nowrap;flex-shrink:0;
+  text-shadow:0 0 6px rgba(224,255,240,0.45);
+  box-shadow:0 0 14px rgba(79,190,154,0.40);
+  animation:installPulse 2.5s infinite;
+  transition:transform .15s;
+  display:flex;align-items:center;gap:4px;
+}
+.install-nav-btn:hover{transform:translateY(-1px) scale(1.05);}
+.install-nav-btn.installed{display:none;}
+@keyframes installPulse{
+  0%,100%{box-shadow:0 0 14px rgba(79,190,154,0.40);}
+  50%{box-shadow:0 0 22px rgba(79,190,154,0.70),0 0 36px rgba(79,190,154,0.30);}
+}
 .admin-btn{
   padding:7px 14px;margin-right:6px;
   background:linear-gradient(135deg,var(--or4),var(--or));
@@ -370,35 +388,72 @@ table.rtbl td:first-child{font-weight:700;color:var(--t1);}
 .install-x{background:rgba(255,255,255,0.25);border:none;color:var(--htext);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
 
 /* Responsive */
-@media(max-width:700px){
-  .header-row{grid-template-columns:100px 1fr 150px;gap:14px;}
-  .logo-wrap{width:100px;height:100px;}
+/* ===== MOBILE LAYOUT (Stacked Header) ===== */
+@media(max-width:760px){
+  .header{padding:16px 14px 14px;}
+  .header-row{
+    grid-template-columns:1fr;
+    gap:14px;
+    text-align:center;
+  }
+  .logo-wrap{
+    width:96px;height:96px;
+    margin:0 auto;
+  }
   .logo-ph-icon{font-size:34px;}
-  .clock-box{padding:12px 14px;min-width:0;}
-  .clock-time{font-size:18px;letter-spacing:1px;}
-  .clock-day{font-size:12px;}
+  .titles{order:2;}
+  .logo-wrap{order:1;}
+  .clock-box{
+    order:3;
+    margin:0 auto;
+    padding:10px 18px;
+    width:fit-content;
+    min-width:200px;
+    max-width:90%;
+  }
+  .clock-time{font-size:22px;letter-spacing:2px;}
+  .clock-day{font-size:13px;}
   .clock-date{font-size:11px;}
-  .fab{bottom:16px;left:14px;width:52px;height:52px;font-size:22px;}
-  .bot-panel{left:10px;bottom:80px;}
-  .grid3{grid-template-columns:1fr 1fr;}
-  .main{padding:14px 12px;}
+  .t-main{font-size:24px;letter-spacing:.5px;}
+  .t-sub1{font-size:14px;letter-spacing:2px;}
+  .t-sub2{font-size:18px;}
+  .fab{bottom:14px;left:12px;width:54px;height:54px;font-size:23px;}
+  .bot-panel{left:8px;bottom:78px;width:calc(100vw - 16px);max-width:380px;}
+  .grid3{grid-template-columns:1fr 1fr;gap:10px;}
+  .grid4{grid-template-columns:1fr 1fr;gap:10px;}
+  .main{padding:14px 10px;}
   .ing-row{grid-template-columns:1fr;gap:4px;}
+  .nav{padding:0 8px;}
+  .ntab{padding:12px 10px;font-size:12px;}
+  .admin-btn{padding:6px 10px;font-size:11px;}
+  .theme-btn{padding:6px 10px;font-size:12px;}
+  .dl-bar{flex-direction:column;}
+  .dl-btn{width:100%;justify-content:center;}
+  .modal{padding:20px 16px;}
+  .modal-title{font-size:20px;}
 }
 @media(max-width:430px){
-  .header-row{grid-template-columns:80px 1fr 115px;gap:10px;}
-  .logo-wrap{width:80px;height:80px;}
+  .header{padding:14px 10px 12px;}
+  .logo-wrap{width:84px;height:84px;}
+  .logo-ph-icon{font-size:30px;}
+  .t-main{font-size:21px;}
+  .t-sub1{font-size:12px;letter-spacing:2px;}
+  .t-sub2{font-size:16px;}
+  .clock-time{font-size:18px;letter-spacing:1px;}
+  .clock-box{padding:8px 14px;min-width:180px;}
   .grid3{grid-template-columns:1fr;}
-  .clock-time{font-size:16px;}
-  .stat-n{font-size:18px;}
+  .grid4{grid-template-columns:1fr;}
+  .ntab{padding:10px 8px;font-size:11px;}
+  .admin-btn, .theme-btn{font-size:11px;padding:5px 8px;}
 }
 </style>
 </head>
 <body>
 
-<div class="install-banner hidden" id="install-banner">
-  <span style="font-size:14px;font-weight:700">📲 تثبيت التطبيق على جهازك</span>
-  <button class="install-btn" onclick="installApp()">تثبيت</button>
-  <button class="install-x" onclick="document.getElementById('install-banner').classList.add('hidden')">✕</button>
+<div class="install-banner" id="install-banner">
+  <span style="font-size:14px;font-weight:700;flex:1">📲 ثبّت التطبيق على جهازك للوصول السريع</span>
+  <button class="install-btn" onclick="installApp()">⬇️ تثبيت</button>
+  <button class="install-x" onclick="dismissInstall()">✕</button>
 </div>
 
 <div class="header">
@@ -433,8 +488,9 @@ table.rtbl td:first-child{font-weight:700;color:var(--t1);}
   <button class="ntab active" onclick="gotoView('search',this)">🔍 البحث</button>
   <button class="ntab" onclick="gotoView('sections',this)">📋 الأقسام</button>
   <button class="ntab" onclick="gotoView('analytics',this)">📊 التحليل</button>
-  <button class="admin-btn" id="admin-btn" onclick="toggleAdmin()">🔒 تسجيل دخول</button>
-  <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">☀️ مود فاتح</button>
+  <button class="install-nav-btn" id="install-nav-btn" onclick="installApp()" title="تثبيت كتطبيق">📲 تثبيت</button>
+  <button class="admin-btn" id="admin-btn" onclick="toggleAdmin()">🔒 دخول</button>
+  <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">☀️</button>
 </div>
 
 <div class="main">
@@ -1515,24 +1571,123 @@ function renderBotReply(q){
 
 // ===== PWA INSTALL =====
 let deferredPrompt = null;
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+// Hide install UI if already installed
+if(isStandalone){
+  setTimeout(()=>{
+    const b = $("install-banner"); if(b) b.classList.add("hidden");
+    const nb = $("install-nav-btn"); if(nb) nb.classList.add("installed");
+  }, 100);
+}
+
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  $("install-banner").classList.remove("hidden");
+  if(!isStandalone && !localStorage.getItem('rasbi-install-dismissed')){
+    $("install-banner").classList.remove("hidden");
+  }
 });
+
 window.addEventListener("appinstalled", () => {
   $("install-banner").classList.add("hidden");
+  $("install-nav-btn").classList.add("installed");
+  deferredPrompt = null;
+  showToast("تم تثبيت التطبيق بنجاح! 🎉", "ok");
 });
+
 function installApp(){
-  if(!deferredPrompt){
-    showToast("افتح الموقع في كروم للتثبيت", "err");
+  // Already installed
+  if(isStandalone){
+    showToast("التطبيق مثبت بالفعل ✅", "ok");
     return;
   }
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then(()=>{
-    deferredPrompt = null;
-    $("install-banner").classList.add("hidden");
-  });
+  
+  // iOS - show instructions
+  if(isIOS){
+    showIOSInstructions();
+    return;
+  }
+  
+  // Native prompt available
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((r)=>{
+      if(r.outcome === 'accepted'){
+        showToast("جاري التثبيت... ⏳", "ok");
+      }
+      deferredPrompt = null;
+      $("install-banner").classList.add("hidden");
+    });
+    return;
+  }
+  
+  // Fallback: show manual instructions
+  showManualInstructions();
+}
+
+function dismissInstall(){
+  $("install-banner").classList.add("hidden");
+  localStorage.setItem('rasbi-install-dismissed', '1');
+}
+
+function showIOSInstructions(){
+  const mb = $("modal-body");
+  mb.innerHTML = "";
+  mb.className = "modal";
+  mb.appendChild(el("button", {class:"modal-x", text:"✕", onclick:closeOverlay}));
+  mb.appendChild(el("div", {class:"modal-title", text:"📲 تثبيت التطبيق على iPhone"}));
+  
+  const steps = el("div");
+  steps.style.cssText = "color:var(--t1);font-size:15px;line-height:2;";
+  steps.innerHTML = `
+    <div style="padding:14px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);margin-bottom:12px;">
+      <b style="color:var(--or3);">الخطوة 1:</b> اضغط زر المشاركة في Safari<br>
+      <span style="font-size:24px;">⬆️ 📦</span>
+    </div>
+    <div style="padding:14px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);margin-bottom:12px;">
+      <b style="color:var(--or3);">الخطوة 2:</b> اختر<br>
+      <span style="font-size:16px;color:var(--or2);">"Add to Home Screen" / "إضافة إلى الشاشة الرئيسية"</span>
+    </div>
+    <div style="padding:14px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);">
+      <b style="color:var(--or3);">الخطوة 3:</b> اضغط<br>
+      <span style="font-size:16px;color:var(--or2);">"Add" / "إضافة"</span> ✅
+    </div>
+    <p style="margin-top:14px;font-size:12px;color:var(--t3);text-align:center;">
+      📌 يجب فتح الموقع في Safari (وليس Chrome) على iPhone
+    </p>
+  `;
+  mb.appendChild(steps);
+  $("overlay").classList.add("open");
+}
+
+function showManualInstructions(){
+  const mb = $("modal-body");
+  mb.innerHTML = "";
+  mb.className = "modal";
+  mb.appendChild(el("button", {class:"modal-x", text:"✕", onclick:closeOverlay}));
+  mb.appendChild(el("div", {class:"modal-title", text:"📲 تثبيت التطبيق"}));
+  
+  const steps = el("div");
+  steps.style.cssText = "color:var(--t1);font-size:14px;line-height:1.9;";
+  steps.innerHTML = `
+    <div style="padding:12px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);margin-bottom:10px;">
+      <b style="color:var(--or3);">📱 على الموبايل (Chrome):</b><br>
+      افتح قائمة المتصفح ⋮ → <b>"تثبيت التطبيق"</b>
+    </div>
+    <div style="padding:12px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);margin-bottom:10px;">
+      <b style="color:var(--or3);">💻 على اللاب توب (Chrome/Edge):</b><br>
+      انظر إلى شريط العنوان → اضغط أيقونة <b>⊕ التثبيت</b><br>
+      أو من القائمة ⋮ → <b>"تثبيت رسبي مينيو..."</b>
+    </div>
+    <div style="padding:12px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);">
+      <b style="color:var(--or3);">🍎 على iPhone (Safari):</b><br>
+      زر المشاركة ⬆️ → <b>"Add to Home Screen"</b>
+    </div>
+  `;
+  mb.appendChild(steps);
+  $("overlay").classList.add("open");
 }
 
 // ===== RESET DATA =====
@@ -1549,14 +1704,25 @@ function resetMenuData(){
 }
 
 // ===== INIT =====
-$("theme-btn").textContent = document.documentElement.getAttribute("data-theme") === "light" ? "🌙 مود داكن" : "☀️ مود فاتح";
+$("theme-btn").textContent = document.documentElement.getAttribute("data-theme") === "light" ? "🌙" : "☀️";
 updateAdminUI();
 initQuickSecs();
 initSections();
 updateHeaderStats();
 
+// Show install banner on iOS too (with different behavior)
+if(isIOS && !isStandalone && !localStorage.getItem('rasbi-install-dismissed')){
+  setTimeout(()=>{
+    $("install-banner").classList.remove("hidden");
+  }, 1500);
+}
+
 if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("./sw.js").catch(()=>{});
+  navigator.serviceWorker.register("./sw.js").then(()=>{
+    console.log("SW registered");
+  }).catch((err)=>{
+    console.log("SW failed:", err);
+  });
 }
 </script>
 </body>
