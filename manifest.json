@@ -2,15 +2,17 @@
   "name": "رسبي مينيو | ب لبن قطر",
   "short_name": "رسبي مينيو",
   "description": "داشبورد مينيو رسبي - إدارة تشغيل قطر / بلال الأنصاري",
-  "start_url": "./",
+  "start_url": "./index.html",
   "scope": "./",
+  "id": "/?source=pwa",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": ["standalone", "minimal-ui", "browser"],
   "background_color": "#0A1F18",
   "theme_color": "#2D9E7A",
   "orientation": "any",
   "lang": "ar",
   "dir": "rtl",
+  "prefer_related_applications": false,
   "categories": ["food", "business", "productivity"],
   "icons": [
     {
@@ -36,6 +38,15 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "رسبي مينيو"
     }
   ]
 }

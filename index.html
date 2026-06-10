@@ -1482,45 +1482,7 @@ function generatePDF(type){
     body += '</table>';
   }
   
-  const html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>'+(type==="full"?"رسبي مينيو":"التحليل الشامل")+'</title><style>body{font-family:Tajawal,Arial,sans-serif;padding:30px;line-height:1.6;color:#333;}h1{font-size:28px;}h2{font-size:20px;}h3{font-size:16px;}@media print{body{padding:15px;}}
-.install-fab{
-  position:fixed;bottom:26px;right:26px;
-  display:flex;align-items:center;gap:8px;
-  padding:12px 18px;border-radius:30px;
-  background:linear-gradient(135deg,#1A6B52,#2D9E7A,#4FBE9A);
-  background-size:200% 200%;
-  border:2px solid #7BD9B8;color:#E0FFF0;
-  font-family:'Tajawal',sans-serif;font-weight:800;
-  font-size:14px;cursor:pointer;
-  box-shadow:0 4px 22px rgba(45,158,122,0.55),0 0 38px rgba(79,190,154,0.30);
-  z-index:500;
-  animation:installFabPulse 2s infinite,installFabGrad 4s infinite;
-  text-shadow:0 0 8px rgba(224,255,240,0.4);
-  transition:transform .2s;
-}
-.install-fab:hover{transform:scale(1.08) translateY(-2px);}
-.install-fab.installed{display:none;}
-.install-fab-label{white-space:nowrap;}
-@keyframes installFabPulse{
-  0%,100%{box-shadow:0 4px 22px rgba(45,158,122,0.55),0 0 38px rgba(79,190,154,0.30);}
-  50%{box-shadow:0 4px 32px rgba(45,158,122,0.75),0 0 60px rgba(79,190,154,0.45);}
-}
-@keyframes installFabGrad{
-  0%,100%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-}
-
-@media(max-width:760px){
-  .install-fab{
-    right:auto;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:auto;top:calc(100vh - 158px);
-    padding:10px 16px;font-size:13px;
-  }
-  .install-fab:hover{transform:translateX(-50%) scale(1.05);}
-}
-</style><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"></head><body>'+body+'<div style="text-align:center;margin-top:30px;color:#999;font-size:11px;">رسبي | ب لبن قطر — إدارة تشغيل قطر</div><script>setTimeout(function(){window.print();}, 800);</'+'script></body></html>';
+  const html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>'+(type==="full"?"رسبي مينيو":"التحليل الشامل")+'</title><style>body{font-family:Tajawal,Arial,sans-serif;padding:30px;line-height:1.6;color:#333;}h1{font-size:28px;}h2{font-size:20px;}h3{font-size:16px;}@media print{body{padding:15px;}}</style><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"></head><body>'+body+'<div style="text-align:center;margin-top:30px;color:#999;font-size:11px;">رسبي | ب لبن قطر — إدارة تشغيل قطر</div><script>setTimeout(function(){window.print();}, 800);</'+'script></body></html>';
   
   w.document.write(html);
   w.document.close();
@@ -1666,8 +1628,25 @@ if(isStandalone){
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  if(!isStandalone && !localStorage.getItem('rasbi-install-dismissed')){
+  if(!isStandalone){
+    // Always show banner (even if dismissed before)
     $("install-banner").classList.remove("hidden");
+    
+    // Auto-trigger install prompt after 4 seconds on first visit
+    if(!localStorage.getItem("rasbi-auto-install-shown")){
+      setTimeout(function(){
+        if(deferredPrompt && !isStandalone){
+          localStorage.setItem("rasbi-auto-install-shown", "1");
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(function(r){
+            if(r.outcome === "accepted"){
+              showToast("جاري التثبيت... ⏳", "ok");
+            }
+            deferredPrompt = null;
+          });
+        }
+      }, 3500);
+    }
   }
 });
 
@@ -1906,11 +1885,14 @@ if(isIOS && !isStandalone && !localStorage.getItem('rasbi-install-dismissed')){
   }, 1500);
 }
 
+// Register SW immediately for PWA install eligibility
 if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("./sw.js").then(()=>{
-    console.log("SW registered");
-  }).catch((err)=>{
-    console.log("SW failed:", err);
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("./sw.js", {scope: "./"}).then(function(reg){
+      console.log("SW registered:", reg.scope);
+    }).catch(function(err){
+      console.log("SW failed:", err);
+    });
   });
 }
 </script>

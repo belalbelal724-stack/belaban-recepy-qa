@@ -1,44 +1,57 @@
-const CACHE = "rasbi-v2";
-const FILES = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./favicon.svg",
-  "./icon-192.png",
-  "./icon-512.png",
-  "https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap",
-  "https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+// Service Worker - Rasbi PWA v3
+const CACHE_NAME = 'rasbi-v3-' + Date.now();
+const CORE_FILES = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './favicon.svg'
 ];
 
-self.addEventListener("install", e => {
+// Install - cache core files immediately
+self.addEventListener('install', (event) => {
   self.skipWaiting();
-  e.waitUntil(
-    caches.open(CACHE).then(c => 
-      Promise.all(FILES.map(f => c.add(f).catch(()=>{})))
-    )
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return Promise.all(
+        CORE_FILES.map(url => 
+          cache.add(url).catch(err => console.log('Cache fail:', url))
+        )
+      );
+    })
   );
 });
 
-self.addEventListener("activate", e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
+// Activate - claim clients and clean old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    Promise.all([
+      self.clients.claim(),
+      caches.keys().then((keys) => 
+        Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+      )
+    ])
   );
 });
 
-self.addEventListener("fetch", e => {
-  if(e.request.method !== "GET") return;
-  e.respondWith(
-    caches.match(e.request).then(r => {
-      if(r) return r;
-      return fetch(e.request).then(resp => {
-        if(resp && resp.status === 200){
-          const clone = resp.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone)).catch(()=>{});
+// Fetch - serve from cache first, fallback to network
+self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+  
+  event.respondWith(
+    caches.match(event.request).then((cached) => {
+      if (cached) return cached;
+      
+      return fetch(event.request).then((response) => {
+        if (response && response.status === 200) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone).catch(()=>{});
+          });
         }
-        return resp;
-      }).catch(()=> caches.match("./index.html"));
+        return response;
+      }).catch(() => caches.match('./index.html'));
     })
   );
 });
