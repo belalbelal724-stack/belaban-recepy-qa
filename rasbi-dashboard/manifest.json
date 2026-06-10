@@ -1,0 +1,16 @@
+{
+  "name": "رسبي مينيو | ب لبن قطر",
+  "short_name": "رسبي مينيو",
+  "description": "داشبورد مينيو رسبي - إدارة تشغيل قطر",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0A1F18",
+  "theme_color": "#2D9E7A",
+  "orientation": "any",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

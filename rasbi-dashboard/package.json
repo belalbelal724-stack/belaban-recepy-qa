@@ -1,0 +1,10 @@
+{
+  "name": "rasbi-menu-dashboard",
+  "version": "1.0.0",
+  "description": "لوحة تحكم مينيو رسبي - لبن قطر",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": ["rasbi", "menu", "qatar", "dashboard"],
+  "author": "بلال الأنصاري"
+}

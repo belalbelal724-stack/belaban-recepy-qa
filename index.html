@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="رسبي مينيو">
+<meta name="theme-color" content="#2D9E7A">
+<title>رسبي مينيو | ب لبن قطر</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+/* ===== THEMES: Mint Green ===== */
+[data-theme="dark"] {
+  /* Dark mint backgrounds */
+  --bg:#0A1F18; --bg2:#0F2A22; --bg3:#14352B; --bg4:#1A4034; --card:#0D2620;
+  /* Bright mint text */
+  --t1:#D4F5E5; --t2:#A0E0C8; --t3:#5E9580;
+  /* Mint borders & glow */
+  --bdr:rgba(102,221,170,0.25); --bdr2:rgba(102,221,170,0.50);
+  --glow:rgba(160,240,200,0.60); --glowS:rgba(160,240,200,0.20);
+  /* Header: deep mint */
+  --hbg:#1F5C4A; --hbg2:#2A7A5E; --hbg3:#358F70;
+  --htext:#E0FFF0; --htextSub:#FFFFFF;
+  --htextGlow:rgba(224,255,240,0.75);
+  --nbg:#081A14; --ibg:#13302A;
+  --shadow:0 4px 28px rgba(0,0,0,0.78);
+  /* Mint accents - all shades */
+  --or:#2D9E7A; --or2:#4FBE9A; --or3:#7BD9B8; --or4:#1A6B52;
+}
+[data-theme="light"] {
+  --bg:#E8F8F0; --bg2:#D9F2E5; --bg3:#C5EBD5; --bg4:#B0E0C2; --card:#F0FCF6;
+  --t1:#0F3528; --t2:#1F5C45; --t3:#4F8F75;
+  --bdr:rgba(45,158,122,0.20); --bdr2:rgba(45,158,122,0.42);
+  --glow:rgba(45,158,122,0.45); --glowS:rgba(45,158,122,0.14);
+  --hbg:#5DCBA0; --hbg2:#6FD9AE; --hbg3:#82E5BC;
+  --htext:#0A2E20; --htextSub:#FFFFFF;
+  --htextGlow:rgba(10,46,32,0.6);
+  --nbg:#D5EFE0; --ibg:#FFFFFF;
+  --shadow:0 4px 20px rgba(0,0,0,0.10);
+  --or:#1A6B52; --or2:#2D9E7A; --or3:#4FBE9A; --or4:#0F4A38;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t1);font-family:'Tajawal',sans-serif;direction:rtl;min-height:100vh;font-size:16px;line-height:1.6;transition:background .3s,color .3s;}
+
+/* ===== HEADER - زيتي ===== */
+.header{
+  background:linear-gradient(135deg,var(--hbg) 0%,var(--hbg2) 50%,var(--hbg) 100%);
+  border-bottom:3px solid var(--hbg3);
+  padding:24px 28px 20px;
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 26px rgba(0,0,0,0.30);
+}
+.header::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(255,243,200,0.18) 0%,transparent 65%);
+  pointer-events:none;
+}
+.header-row{
+  max-width:1360px;margin:0 auto;
+  display:grid;grid-template-columns:140px 1fr 210px;
+  align-items:center;gap:26px;
+}
+
+/* Logo - bigger, breathing animation, glowing border */
+.logo-wrap{
+  width:134px;height:134px;border-radius:50%;
+  border:3.5px solid var(--htext);
+  box-shadow:
+    0 0 24px var(--htextGlow),
+    0 0 48px rgba(240,228,184,0.30),
+    0 0 80px rgba(240,228,184,0.15),
+    inset 0 0 20px rgba(255,243,200,0.15);
+  background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;cursor:pointer;position:relative;flex-shrink:0;
+  animation:breathe 3.5s ease-in-out infinite;
+}
+@keyframes breathe{
+  0%,100%{
+    transform:scale(1);
+    box-shadow:0 0 24px var(--htextGlow),0 0 48px rgba(240,228,184,0.30),0 0 80px rgba(240,228,184,0.15),inset 0 0 20px rgba(255,243,200,0.15);
+  }
+  50%{
+    transform:scale(1.05);
+    box-shadow:0 0 36px var(--htextGlow),0 0 68px rgba(240,228,184,0.45),0 0 110px rgba(240,228,184,0.22),inset 0 0 26px rgba(255,243,200,0.22);
+  }
+}
+.logo-wrap:hover .logo-hint{opacity:1;}
+#logo-img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:none;}
+.logo-ph{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--htext);}
+.logo-ph-icon{font-size:46px;filter:drop-shadow(0 0 8px var(--htextGlow));}
+.logo-ph-txt{font-size:11px;font-weight:800;letter-spacing:.5px;text-shadow:0 0 8px var(--htextGlow);}
+.logo-hint{position:absolute;inset:0;background:rgba(61,70,40,0.78);display:flex;align-items:center;justify-content:center;border-radius:50%;opacity:0;transition:opacity .2s;font-size:28px;color:var(--htext);}
+#logo-file{display:none;}
+
+.titles{text-align:center;}
+.t-main{
+  font-size:clamp(28px,4vw,54px);font-weight:900;
+  color:var(--htext);
+  text-shadow:0 0 18px var(--htextGlow),0 0 36px rgba(240,228,184,0.40),0 2px 4px rgba(0,0,0,0.30);
+  letter-spacing:1px;line-height:1.1;
+}
+.t-sub1{
+  font-size:clamp(15px,1.8vw,22px);font-weight:700;
+  color:var(--htextSub);letter-spacing:4px;margin-top:7px;
+  text-shadow:0 0 12px rgba(255,255,255,0.55),0 1px 3px rgba(0,0,0,0.30);
+}
+.t-sub2{
+  font-size:clamp(18px,2.5vw,32px);font-weight:900;
+  color:var(--htext);margin-top:5px;
+  text-shadow:0 0 18px var(--htextGlow),0 0 34px rgba(240,228,184,0.30),0 2px 4px rgba(0,0,0,0.30);
+}
+
+/* Clock - bigger frame, text fits inside */
+.clock-box{
+  background:rgba(20,25,12,0.32);
+  backdrop-filter:blur(6px);
+  border:2.5px solid var(--htext);
+  border-radius:18px;
+  padding:18px 24px;text-align:center;
+  box-shadow:
+    0 0 22px var(--htextGlow),
+    0 0 44px rgba(240,228,184,0.22),
+    inset 0 0 16px rgba(255,243,200,0.12);
+  flex-shrink:0;min-width:200px;
+}
+.clock-time{
+  font-size:clamp(22px,2.4vw,32px);
+  font-weight:900;color:var(--htext);
+  text-shadow:0 0 14px var(--htextGlow),0 1px 2px rgba(0,0,0,0.25);
+  letter-spacing:2px;line-height:1.1;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+.clock-day{
+  font-size:14px;color:var(--htext);font-weight:800;margin-top:6px;
+  text-shadow:0 0 10px var(--htextGlow);
+}
+.clock-date{
+  font-size:12px;color:var(--htextSub);margin-top:3px;font-weight:600;
+  text-shadow:0 0 6px rgba(255,255,255,0.40);
+}
+
+.stats-bar{max-width:1360px;margin:18px auto 0;display:flex;justify-content:center;gap:clamp(16px,4vw,60px);flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-n{
+  font-size:clamp(22px,3vw,32px);font-weight:900;
+  color:var(--htext);text-shadow:0 0 12px var(--htextGlow);line-height:1;
+}
+.stat-l{font-size:12px;color:var(--htextSub);margin-top:3px;letter-spacing:.5px;font-weight:600;text-shadow:0 0 6px rgba(255,255,255,0.30);}
+
+/* ===== NAV ===== */
+.nav{
+  background:var(--nbg);border-bottom:1px solid var(--bdr);
+  padding:0 18px;display:flex;align-items:center;
+  overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--or) transparent;
+  position:sticky;top:0;z-index:200;gap:2px;
+}
+.ntab{
+  padding:14px 16px;font-size:clamp(13px,1.8vw,16px);font-weight:700;
+  color:var(--t3);cursor:pointer;border-bottom:3px solid transparent;
+  white-space:nowrap;transition:all .2s;font-family:'Tajawal',sans-serif;
+  background:none;border-top:none;border-right:none;border-left:none;
+}
+.ntab:hover{color:var(--or2);}
+.ntab.active{color:var(--or3);border-bottom-color:var(--or2);text-shadow:0 0 10px var(--glow);}
+.theme-btn{
+  margin-right:auto;padding:7px 14px;
+  background:var(--bg3);border:1.5px solid var(--bdr);
+  border-radius:22px;cursor:pointer;font-size:14px;
+  color:var(--t2);font-family:'Tajawal',sans-serif;
+  white-space:nowrap;transition:all .2s;flex-shrink:0;font-weight:700;
+}
+.theme-btn:hover{border-color:var(--or2);color:var(--or3);}
+.admin-btn{
+  padding:7px 14px;margin-right:6px;
+  background:linear-gradient(135deg,var(--or4),var(--or));
+  color:var(--htext);border:1.5px solid var(--or2);
+  border-radius:22px;cursor:pointer;font-size:13px;
+  font-family:'Tajawal',sans-serif;font-weight:800;
+  white-space:nowrap;flex-shrink:0;
+  text-shadow:0 0 6px rgba(240,228,184,0.45);
+  box-shadow:0 0 10px var(--glowS);
+  transition:transform .15s;
+}
+.admin-btn:hover{transform:translateY(-1px);}
+.admin-btn.active{background:linear-gradient(135deg,#1F7A38,#34A853);border-color:#34A853;color:#fff;text-shadow:0 0 6px rgba(255,255,255,0.5);}
+
+.main{padding:22px 18px;max-width:1360px;margin:0 auto;}
+.view{display:none;}.view.active{display:block;}
+
+/* All page titles glow */
+.h-glow{
+  font-size:clamp(18px,2.5vw,26px);font-weight:800;
+  color:var(--or3);text-shadow:0 0 14px var(--glow),0 0 28px var(--glowS);
+  margin-bottom:16px;
+}
+
+/* ===== SEARCH ===== */
+.s-wrap{position:relative;margin-bottom:20px;}
+.s-input{
+  width:100%;padding:15px 52px 15px 18px;
+  background:var(--ibg);border:2px solid var(--bdr);
+  border-radius:14px;color:var(--t1);
+  font-size:clamp(15px,2vw,18px);font-family:'Tajawal',sans-serif;
+  outline:none;transition:border-color .2s,box-shadow .2s;direction:rtl;
+}
+.s-input:focus{border-color:var(--or2);box-shadow:0 0 0 3px var(--glowS);}
+.s-input::placeholder{color:var(--t3);}
+.s-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--or2);pointer-events:none;}
+.s-results{background:var(--ibg);border:2px solid var(--bdr2);border-radius:14px;margin-top:7px;overflow:hidden;display:none;box-shadow:var(--shadow);}
+.s-item{padding:13px 16px;cursor:pointer;border-bottom:1px solid var(--bdr);transition:background .15s;}
+.s-item:last-child{border-bottom:none;}
+.s-item:hover{background:var(--glowS);}
+.s-item-name{font-size:clamp(14px,2vw,16px);font-weight:700;color:var(--t1);}
+.s-item-sec{font-size:12px;color:var(--or2);margin-top:2px;}
+.s-item-sc{font-size:11px;color:var(--t3);}
+
+/* ===== CARDS ===== */
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:20px;}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:18px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--or),var(--or3));}
+.card:hover{border-color:var(--or2);transform:translateY(-2px);box-shadow:0 8px 24px var(--glowS);}
+.card-title{font-size:clamp(17px,2vw,21px);font-weight:800;color:var(--or3);text-shadow:0 0 10px var(--glowS);margin-bottom:6px;}
+.card-count{font-size:13px;color:var(--t3);}
+.card-count span{color:var(--or3);font-weight:700;}
+
+.grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;}
+.icard{background:var(--bg3);border:1px solid var(--bdr);border-radius:11px;padding:14px;cursor:pointer;transition:all .18s;position:relative;}
+.icard:hover{border-color:var(--or2);background:var(--bg4);box-shadow:0 4px 16px var(--glowS);transform:translateY(-1px);}
+.icard-name{font-size:clamp(13px,1.8vw,15px);font-weight:700;color:var(--t1);margin-bottom:8px;line-height:1.4;padding-left:35px;}
+.tags{display:flex;flex-wrap:wrap;gap:4px;}
+.tag{background:var(--glowS);color:var(--or3);font-size:10px;padding:2px 7px;border-radius:20px;border:1px solid var(--bdr);}
+.wa-mini{position:absolute;top:9px;left:9px;width:27px;height:27px;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.28);border-radius:7px;color:#25D366;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.wa-mini:hover{background:rgba(37,211,102,0.32);}
+.edit-mini{position:absolute;top:9px;left:43px;width:27px;height:27px;background:rgba(212,200,108,0.15);border:1px solid var(--or2);border-radius:7px;color:var(--or3);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;display:none;}
+.edit-mini:hover{background:rgba(212,200,108,0.30);}
+.admin-mode .edit-mini{display:flex;}
+.admin-mode .icard-name{padding-left:75px;}
+.del-mini{position:absolute;top:9px;left:77px;width:27px;height:27px;background:rgba(220,53,69,0.15);border:1px solid #DC3545;border-radius:7px;color:#DC3545;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;display:none;}
+.del-mini:hover{background:rgba(220,53,69,0.30);}
+.admin-mode .del-mini{display:flex;}
+.admin-mode .icard-name{padding-left:115px;}
+
+.sec-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.back-btn{padding:8px 14px;background:var(--glowS);border:1px solid var(--bdr);border-radius:9px;color:var(--or3);cursor:pointer;font-size:13px;font-family:'Tajawal',sans-serif;font-weight:700;}
+.back-btn:hover{background:var(--bdr);}
+.sec-big{font-size:clamp(18px,3vw,26px);font-weight:800;color:var(--or3);text-shadow:0 0 12px var(--glow);}
+.add-new-btn{margin-right:auto;padding:9px 16px;background:linear-gradient(135deg,#1F7A38,#34A853);color:#fff;border:none;border-radius:9px;cursor:pointer;font-size:13px;font-family:'Tajawal',sans-serif;font-weight:800;box-shadow:0 0 12px rgba(52,168,83,0.3);display:none;}
+.admin-mode .add-new-btn{display:inline-block;}
+
+/* ===== MODAL ===== */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.84);z-index:1000;display:none;align-items:center;justify-content:center;padding:14px;}
+.overlay.open{display:flex;}
+.modal{background:var(--card);border:2.5px solid var(--or2);border-radius:18px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;padding:28px;position:relative;box-shadow:0 0 50px var(--glowS),0 0 100px rgba(212,200,108,0.08);}
+.modal-x{position:absolute;top:12px;left:12px;width:34px;height:34px;background:var(--glowS);border:1px solid var(--or2);border-radius:8px;color:var(--or3);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-title{font-size:clamp(19px,3vw,28px);font-weight:800;color:var(--or3);text-shadow:0 0 16px var(--glow);margin-bottom:7px;}
+.modal-badge{display:inline-block;background:var(--glowS);border:1px solid var(--or2);color:var(--or3);font-size:12px;padding:3px 11px;border-radius:20px;margin-bottom:16px;}
+table.rtbl{width:100%;border-collapse:collapse;margin-top:8px;}
+table.rtbl th{background:var(--glowS);color:var(--or3);padding:10px 12px;font-size:13px;font-weight:700;text-align:right;border-bottom:2px solid var(--bdr2);}
+table.rtbl td{padding:9px 12px;font-size:13px;border-bottom:1px solid var(--bdr);color:var(--t2);}
+table.rtbl tr:hover td{background:var(--glowS);}
+table.rtbl td:first-child{font-weight:700;color:var(--t1);}
+.qbadge{background:var(--glowS);color:var(--or3);padding:1px 7px;border-radius:5px;font-size:12px;font-weight:700;}
+.modal-acts{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap;}
+.btn-wa{flex:1;padding:12px;background:#25D366;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Tajawal',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;min-width:140px;}
+.btn-cp{flex:1;padding:12px;background:var(--glowS);color:var(--or3);border:1.5px solid var(--or2);border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Tajawal',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;min-width:140px;}
+.btn-cp:hover{background:var(--bdr);}
+.btn-edit{flex:1;padding:12px;background:linear-gradient(135deg,var(--or4),var(--or));color:var(--htext);border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Tajawal',sans-serif;display:none;align-items:center;justify-content:center;gap:6px;min-width:140px;}
+.admin-mode .btn-edit{display:flex;}
+
+/* Edit form */
+.edit-form{display:flex;flex-direction:column;gap:12px;}
+.f-row{display:flex;flex-direction:column;gap:5px;}
+.f-row label{font-size:13px;color:var(--t2);font-weight:700;}
+.f-row input, .f-row select{padding:10px 12px;background:var(--ibg);border:1.5px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:'Tajawal',sans-serif;font-size:14px;outline:none;}
+.f-row input:focus, .f-row select:focus{border-color:var(--or2);}
+.ing-list{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;padding:8px;background:var(--bg3);border-radius:10px;border:1px solid var(--bdr);}
+.ing-row{display:grid;grid-template-columns:2fr 1fr 1fr 36px;gap:6px;align-items:center;}
+.ing-row input, .ing-row select{padding:7px 9px;background:var(--ibg);border:1px solid var(--bdr);border-radius:6px;color:var(--t1);font-family:'Tajawal',sans-serif;font-size:12px;outline:none;}
+.ing-del{padding:6px;background:rgba(220,53,69,0.15);border:1px solid #DC3545;border-radius:6px;color:#DC3545;cursor:pointer;font-size:14px;font-weight:700;}
+.add-ing-btn{padding:8px;background:var(--glowS);border:1px dashed var(--or2);border-radius:8px;color:var(--or3);cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;}
+.f-actions{display:flex;gap:9px;margin-top:8px;}
+.btn-save{flex:1;padding:11px;background:linear-gradient(135deg,#1F7A38,#34A853);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;}
+.btn-cancel{flex:1;padding:11px;background:var(--bg4);color:var(--t2);border:1px solid var(--bdr);border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Tajawal',sans-serif;}
+
+/* Password modal */
+.pwd-modal{max-width:380px;text-align:center;}
+.pwd-modal .modal-title{margin-bottom:18px;}
+.pwd-input{width:100%;padding:14px;background:var(--ibg);border:2px solid var(--bdr);border-radius:10px;color:var(--t1);font-family:'Tajawal',sans-serif;font-size:18px;text-align:center;letter-spacing:6px;outline:none;direction:ltr;}
+.pwd-input:focus{border-color:var(--or2);}
+.pwd-hint{font-size:12px;color:var(--t3);margin-top:10px;}
+
+/* ===== ANALYTICS ===== */
+.m-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;margin-bottom:22px;}
+.mcard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:18px;text-align:center;}
+.mval{font-size:clamp(28px,4vw,40px);font-weight:900;color:var(--or3);text-shadow:0 0 18px var(--glow);line-height:1;}
+.mlbl{font-size:12px;color:var(--t3);margin-top:5px;}
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}
+@media(max-width:680px){.ch-grid{grid-template-columns:1fr;}}
+.ch-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:18px;}
+.ch-title{font-size:clamp(14px,1.8vw,17px);font-weight:800;color:var(--or3);text-shadow:0 0 10px var(--glowS);margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--bdr);}
+.rank-row{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid var(--bdr);}
+.rank-n{width:21px;height:21px;background:var(--glowS);color:var(--or3);border-radius:5px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rank-bw{flex:1;min-width:0;}
+.rank-nm{font-size:12px;font-weight:700;margin-bottom:3px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rank-bg{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden;}
+.rank-fill{height:100%;background:linear-gradient(90deg,var(--or),var(--or3));border-radius:3px;}
+.rank-qty{font-size:11px;color:var(--or3);font-weight:700;flex-shrink:0;}
+
+/* Download buttons */
+.dl-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.dl-btn{padding:11px 18px;background:linear-gradient(135deg,var(--or4),var(--or));color:var(--htext);border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;display:flex;align-items:center;gap:6px;text-shadow:0 0 6px var(--htextGlow);box-shadow:0 0 12px var(--glowS);transition:transform .15s;}
+.dl-btn:hover{transform:translateY(-2px);box-shadow:0 4px 18px var(--glow);}
+.dl-btn.green{background:linear-gradient(135deg,#1F7A38,#34A853);text-shadow:0 0 6px rgba(255,255,255,0.4);box-shadow:0 0 12px rgba(52,168,83,0.25);}
+.dl-btn.red{background:linear-gradient(135deg,#A02020,#D43030);text-shadow:0 0 6px rgba(255,255,255,0.4);}
+
+/* FAB */
+.fab{position:fixed;bottom:26px;left:26px;width:58px;height:58px;border-radius:50%;background:var(--or2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:25px;color:var(--htext);box-shadow:0 4px 20px var(--glow),0 0 32px var(--glowS);z-index:500;transition:transform .2s;animation:fabp 3s infinite;}
+.fab:hover{transform:scale(1.1);animation:none;}
+@keyframes fabp{0%,100%{box-shadow:0 4px 20px var(--glow),0 0 32px var(--glowS);}50%{box-shadow:0 4px 32px var(--glow),0 0 56px rgba(212,200,108,0.32);}}
+.fab-badge{position:absolute;top:-3px;right:-3px;width:18px;height:18px;border-radius:50%;background:var(--hbg);border:2px solid var(--bg);font-size:9px;color:var(--htext);font-weight:900;display:flex;align-items:center;justify-content:center;}
+
+.bot-panel{position:fixed;bottom:98px;left:18px;width:min(395px,calc(100vw - 28px));height:min(520px,calc(100vh - 135px));background:var(--card);border:2px solid var(--or2);border-radius:20px;z-index:498;display:flex;flex-direction:column;box-shadow:0 8px 40px var(--glow),0 0 70px var(--glowS);overflow:hidden;transform:scale(0) translateY(16px);transform-origin:bottom left;opacity:0;transition:transform .28s cubic-bezier(.34,1.56,.64,1),opacity .22s;pointer-events:none;}
+.bot-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+.bot-hd{background:linear-gradient(135deg,var(--or4),var(--or));padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
+.bot-hd-title{font-size:17px;font-weight:800;color:var(--htext);text-shadow:0 0 8px rgba(0,0,0,0.3);}
+.bot-close{background:rgba(255,255,255,0.18);border:none;border-radius:7px;color:var(--htext);width:30px;height:30px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.chat-msgs{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:9px;scrollbar-width:thin;scrollbar-color:var(--or2) transparent;}
+.cmsg{max-width:88%;padding:10px 13px;border-radius:11px;font-size:13px;line-height:1.6;}
+.cmsg.bot{background:var(--bg3);border:1px solid var(--bdr);align-self:flex-start;border-radius:11px 11px 11px 3px;color:var(--t1);}
+.cmsg.user{background:var(--or2);color:var(--htext);align-self:flex-end;border-radius:11px 11px 3px 11px;font-weight:700;}
+.blbl{font-size:11px;color:var(--or3);font-weight:700;margin-bottom:4px;}
+.crc{background:var(--bg4);border:1px solid var(--bdr2);border-radius:9px;padding:11px;margin-top:6px;}
+.crc-title{font-size:14px;font-weight:800;color:var(--or3);text-shadow:0 0 7px var(--glowS);margin-bottom:6px;}
+.crc-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--bdr);font-size:12px;}
+.crc-name{color:var(--t2);}.crc-qty{color:var(--or3);font-weight:700;}
+.c-acts{display:flex;gap:6px;margin-top:8px;}
+.c-wa{padding:6px 11px;background:#25D366;color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Tajawal',sans-serif;display:flex;align-items:center;gap:4px;}
+.c-cp{padding:6px 11px;background:var(--glowS);color:var(--or3);border:1px solid var(--or2);border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Tajawal',sans-serif;}
+.typing{display:flex;align-items:center;gap:4px;padding:9px 12px;background:var(--bg3);border:1px solid var(--bdr);border-radius:11px 11px 11px 3px;width:fit-content;align-self:flex-start;}
+.td{width:6px;height:6px;background:var(--or2);border-radius:50%;animation:blink 1.2s infinite;}
+.td:nth-child(2){animation-delay:.2s;}.td:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.chat-inp-row{display:flex;gap:7px;padding:11px;border-top:1px solid var(--bdr);background:var(--bg2);}
+.chat-inp{flex:1;padding:10px 13px;background:var(--ibg);border:1.5px solid var(--bdr);border-radius:9px;color:var(--t1);font-size:13px;font-family:'Tajawal',sans-serif;outline:none;direction:rtl;transition:border-color .2s;}
+.chat-inp:focus{border-color:var(--or2);}
+.chat-send{padding:10px 16px;background:var(--or2);color:var(--htext);border:none;border-radius:9px;font-size:18px;cursor:pointer;transition:background .2s;font-weight:900;}
+.chat-send:hover{background:var(--or3);}
+
+.toast{position:fixed;bottom:22px;right:22px;background:var(--or2);color:var(--htext);padding:11px 18px;border-radius:9px;font-weight:800;font-family:'Tajawal',sans-serif;z-index:9999;opacity:0;transform:translateY(18px);transition:all .3s;pointer-events:none;box-shadow:0 4px 16px var(--glow);}
+.toast.on{opacity:1;transform:translateY(0);}
+.toast.err{background:#D43030;color:#fff;}
+.toast.ok{background:#1F7A38;color:#fff;}
+
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--or2);border-radius:3px;}
+
+.install-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(135deg,var(--or4),var(--or));color:var(--htext);padding:12px 20px;z-index:9000;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 2px 16px var(--glow);}
+.install-banner.hidden{display:none;}
+.install-btn{padding:7px 16px;background:var(--htext);color:var(--or4);border:none;border-radius:8px;font-weight:800;font-size:14px;cursor:pointer;font-family:'Tajawal',sans-serif;flex-shrink:0;}
+.install-x{background:rgba(255,255,255,0.25);border:none;color:var(--htext);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
+
+/* Responsive */
+@media(max-width:700px){
+  .header-row{grid-template-columns:100px 1fr 150px;gap:14px;}
+  .logo-wrap{width:100px;height:100px;}
+  .logo-ph-icon{font-size:34px;}
+  .clock-box{padding:12px 14px;min-width:0;}
+  .clock-time{font-size:18px;letter-spacing:1px;}
+  .clock-day{font-size:12px;}
+  .clock-date{font-size:11px;}
+  .fab{bottom:16px;left:14px;width:52px;height:52px;font-size:22px;}
+  .bot-panel{left:10px;bottom:80px;}
+  .grid3{grid-template-columns:1fr 1fr;}
+  .main{padding:14px 12px;}
+  .ing-row{grid-template-columns:1fr;gap:4px;}
+}
+@media(max-width:430px){
+  .header-row{grid-template-columns:80px 1fr 115px;gap:10px;}
+  .logo-wrap{width:80px;height:80px;}
+  .grid3{grid-template-columns:1fr;}
+  .clock-time{font-size:16px;}
+  .stat-n{font-size:18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="install-banner hidden" id="install-banner">
+  <span style="font-size:14px;font-weight:700">📲 تثبيت التطبيق على جهازك</span>
+  <button class="install-btn" onclick="installApp()">تثبيت</button>
+  <button class="install-x" onclick="document.getElementById('install-banner').classList.add('hidden')">✕</button>
+</div>
+
+<div class="header">
+  <div class="header-row">
+    <div class="logo-wrap" onclick="document.getElementById('logo-file').click()" title="اضغط لرفع الشعار">
+      <div class="logo-ph" id="logo-ph">
+        <span class="logo-ph-icon">🍽️</span>
+        <span class="logo-ph-txt">شعار</span>
+      </div>
+      <img id="logo-img" alt="logo">
+      <div class="logo-hint">📷</div>
+    </div>
+    <input type="file" id="logo-file" accept="image/*" onchange="uploadLogo(this)">
+
+    <div class="titles">
+      <div class="t-main">رسبي مينيو | ب لبن قطر</div>
+      <div class="t-sub1">إدارة تشغيل قطر</div>
+      <div class="t-sub2">بلال الأنصاري</div>
+    </div>
+
+    <div class="clock-box">
+      <div class="clock-time" id="clk-t">00:00:00</div>
+      <div class="clock-day" id="clk-d">—</div>
+      <div class="clock-date" id="clk-dt">—</div>
+    </div>
+  </div>
+
+  
+</div>
+
+<div class="nav">
+  <button class="ntab active" onclick="gotoView('search',this)">🔍 البحث</button>
+  <button class="ntab" onclick="gotoView('sections',this)">📋 الأقسام</button>
+  <button class="ntab" onclick="gotoView('analytics',this)">📊 التحليل</button>
+  <button class="admin-btn" id="admin-btn" onclick="toggleAdmin()">🔒 تسجيل دخول</button>
+  <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">☀️ مود فاتح</button>
+</div>
+
+<div class="main">
+  <div class="view active" id="view-search">
+    <div class="s-wrap">
+      <input class="s-input" id="s-inp" type="text" placeholder="ابحث عن أي صنف... البحث ذكي ويدعم الأخطاء الإملائية 🔍" oninput="doSearch(this.value)" autocomplete="off">
+      <span class="s-icon">🔍</span>
+      <div class="s-results" id="s-results"></div>
+    </div>
+    <div id="s-featured">
+      <div class="dl-bar">
+        <button class="dl-btn green" onclick="downloadExcel()">📊 تحميل Excel</button>
+        <button class="dl-btn red" onclick="downloadMenuPDF()">📄 تحميل المينيو PDF</button>
+      </div>
+      <div class="h-glow" style="font-size:18px;margin-bottom:12px">الأقسام السريعة</div>
+      <div class="grid3" id="qs-grid"></div>
+    </div>
+  </div>
+
+  <div class="view" id="view-sections">
+    <div id="sec-ov"></div>
+    <div id="sec-det" style="display:none"></div>
+  </div>
+
+  <div class="view" id="view-analytics">
+    <div class="dl-bar">
+      <button class="dl-btn red" onclick="downloadAnalyticsPDF()">📄 تحميل التحليل PDF</button>
+      <button class="dl-btn green" onclick="downloadExcel()">📊 تحميل البيانات Excel</button>
+    </div>
+    <div class="m-grid" id="a-metrics"></div>
+    <div class="ch-grid">
+      <div class="ch-card">
+        <div class="ch-title">📊 توزيع الأصناف على الأقسام</div>
+        <div style="position:relative;height:270px"><canvas id="ch-sec"></canvas></div>
+      </div>
+      <div class="ch-card">
+        <div class="ch-title">🧪 أكثر الخامات استخداماً</div>
+        <div id="rank-list"></div>
+      </div>
+    </div>
+    <div class="ch-grid">
+      <div class="ch-card" style="grid-column:span 2">
+        <div class="ch-title">📦 الخامات الرئيسية لكل قسم</div>
+        <div style="position:relative;height:300px"><canvas id="ch-ing"></canvas></div>
+      </div>
+    </div>
+    <div id="a-sec-cards"></div>
+  </div>
+</div>
+
+<button class="fab" onclick="toggleBot()">🤖<span class="fab-badge">AI</span></button>
+<div class="bot-panel" id="bot-panel">
+  <div class="bot-hd">
+    <div class="bot-hd-title">🤖 رسبي بوت الذكي</div>
+    <button class="bot-close" onclick="toggleBot()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="cmsg bot">
+      <div class="blbl">🤖 رسبي بوت</div>
+      أهلاً! 👋 اسألني عن أي صنف في المينيو.<br>
+      مثال: <em>"مكونات الطبطبه"</em> أو <em>"أصناف فيها فستق"</em>
+    </div>
+  </div>
+  <div class="chat-inp-row">
+    <input class="chat-inp" id="chat-inp" type="text" placeholder="اكتب سؤالك..." onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send" onclick="sendMsg()">↑</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeOverlay()">
+  <div class="modal" id="modal-body"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const INITIAL_DATA = {"الارز": [{"name": "رز بلبن ساده", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}]}, {"name": "رز ب لبن + ايس حليب", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 100.0}]}, {"name": "رز ب لبن + لوتس بلجيكى", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 60.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 28.0}, {"name": "زيت", "unit": "جرام", "qty": 6.0}]}, {"name": "رز ب لبن + مكسرات", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 60.0}]}, {"name": "رز ب لبن بالبيكان و الايس كريم", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "بيكان", "unit": "جرام", "qty": 90.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 70.0}]}, {"name": "رز ب لبن + مكسرات + ايس كريم", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 70.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 60.0}]}, {"name": "رز ب لبن بستاشيو+فستق حلبي", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 60.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 45.0}, {"name": "زيت", "unit": "جرام", "qty": 6.0}]}, {"name": "رز ب لبن + مكسرات + نوتيلا", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 60.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 45.0}, {"name": "زيت", "unit": "جرام", "qty": 9.0}]}, {"name": "الطبطبه", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 70.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 45.0}, {"name": "بسبوسه", "unit": "قطعه", "qty": 4.0}]}, {"name": "رز ب لبن +روشيه ايطالى", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته روشيه", "unit": "جرام", "qty": 120.0}, {"name": "زيت", "unit": "جرام", "qty": 96.0}]}, {"name": "رز ب لبن بالبيكان", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "بيكان", "unit": "جرام", "qty": 120.0}]}, {"name": "رز ب لبن + مانجا+ ايس كريم", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 175.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 70.0}]}, {"name": "جريمة بلبن", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 175.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 70.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 45.0}]}, {"name": "الشكلكليطه رز", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "اوريو", "unit": "جرام", "qty": 30.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 60.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 20.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 45.0}, {"name": "زيت", "unit": "جرام", "qty": 11.0}]}], "الكشري": [{"name": "كشرى كندر بلبن", "ingredients": [{"name": "ارز كشري", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 75.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 60.0}, {"name": "كريمه", "unit": "جرام", "qty": 90.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 7.0}]}, {"name": "كشري لوتس", "ingredients": [{"name": "ارز كشري", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 90.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 100.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 30.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}]}, {"name": "كشري بلبن مانجو", "ingredients": [{"name": "ارز كشري", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 90.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 220.0}]}, {"name": "كشري بلبن اوريو نوتيلا", "ingredients": [{"name": "ارز كشري", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 90.0}, {"name": "اوريو", "unit": "جرام", "qty": 45.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 100.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}]}, {"name": "كشري بلبن نوتيلا", "ingredients": [{"name": "ارز كشري", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 90.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 100.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}, {"name": "شيكولانه  شيبس", "unit": "جرام", "qty": 15.0}]}, {"name": "كشري بلبن بستاشيو", "ingredients": [{"name": "ارز كشري", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 90.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 45.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 100.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}]}, {"name": "كشري بلبن بستاشيو لوتس", "ingredients": [{"name": "ارز كشري", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 90.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 25.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 60.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 35.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 60.0}, {"name": "زيت", "unit": "جرام", "qty": 12.0}]}, {"name": "كشري بلبن بيكان", "ingredients": [{"name": "ارز كشري", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 90.0}, {"name": "بيكان", "unit": "جرام", "qty": 150.0}, {"name": "زيت", "unit": "جرام", "qty": 0}]}], "القشطوطه": [{"name": "قشطوطة رز ب لبن ساده", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}]}, {"name": "قشطوطة رز ب لبن + مكسرات", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 60.0}]}, {"name": "قشطوطة رز ب لبن + مانجا", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 230.0}]}, {"name": "طبق الدلع", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "موز", "unit": "جرام", "qty": 100.0}, {"name": "فراوله", "unit": "جرام", "qty": 75.0}]}, {"name": "قشطوطة رز ب لبن + لوتس", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 80.0}, {"name": "زيت", "unit": "جرام", "qty": 8.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 35.0}]}, {"name": "سوبر الملوك", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 80.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 60.0}, {"name": "زيت", "unit": "جرام", "qty": 8.0}]}, {"name": "نوتيلا فوبيا", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 80.0}, {"name": "شيكولانه شيبس", "unit": "جرام", "qty": 15.0}, {"name": "زيت", "unit": "جرام", "qty": 12.0}]}, {"name": "الفيريرو الايطالى سوبر", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته روشيه", "unit": "جرام", "qty": 120.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 60.0}, {"name": "زيت", "unit": "جرام", "qty": 9.0}]}, {"name": "قشطوطة الشبح", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 80.0}, {"name": "زيت", "unit": "جرام", "qty": 8.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 35.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 60.0}]}, {"name": "قشطوطة قشطة بالبيكان", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "بيكان", "unit": "جرام", "qty": 120.0}]}, {"name": "قشطوطة بالبيكان و الايس كريم", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "بيكان", "unit": "جرام", "qty": 120.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 7.0}]}, {"name": "سوبر لوكس قشطوطة", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 40.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 20.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 40.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 35.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 40.0}, {"name": "شيكولانه شيبس", "unit": "جرام", "qty": 10.0}, {"name": "زيت", "unit": "جرام", "qty": 14.0}]}, {"name": "قشطوطة قشطة", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}]}, {"name": "قشطوطة مكسرات", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 60.0}]}, {"name": "قشطوطة مانجا زبده قطع", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 220.0}]}, {"name": "طبق الملوك", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 7.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 45.0}]}, {"name": "قشطوطة لوتس", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 7.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 35.0}]}, {"name": "قشطوطة كراميل", "ingredients": [{"name": "قشطوطه كراميل", "unit": "عدد", "qty": 1.0}]}, {"name": "طبق السعادة", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 45.0}, {"name": "شيكولاته روشيه", "unit": "جرام", "qty": 80.0}, {"name": "زيت", "unit": "جرام", "qty": 6.0}]}, {"name": "قشطوطة قشطة و نوتيلا ايطالى", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}, {"name": "شيكولانه شيبس", "unit": "جرام", "qty": 15.0}]}, {"name": "الشكلكليطه قشطوطه", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "اوريو", "unit": "جرام", "qty": 45.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 80.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 20.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 45.0}, {"name": "زيت", "unit": "جرام", "qty": 14.0}]}, {"name": "العويسيه قشطوطه", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 230.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 70.0}]}, {"name": "الفستقيه قشطوطه", "ingredients": [{"name": "قشطوطه ارز", "unit": "عدد", "qty": 1.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 60.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 80.0}, {"name": "زيت", "unit": "جرام", "qty": 8.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 70.0}]}, {"name": "قشطوطة كيندر مكسرات", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 60.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 30.0}]}, {"name": "قشطوطه شيكولاته ساده", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته  دارك", "unit": "جرام", "qty": 100.0}]}, {"name": "قشطوطه شيكولاته كرانشى", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته دارك", "unit": "جرام", "qty": 100.0}, {"name": "بودر  كرانشي", "unit": "جرام", "qty": 20.0}]}, {"name": "قشطوطه  كرانشى  مكسرات", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته دارك", "unit": "جرام", "qty": 90.0}, {"name": "بودر  كرانشي", "unit": "جرام", "qty": 20.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 30.0}]}, {"name": "قنبله دبى ساده", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 75.0}, {"name": "فراوله", "unit": "جرام", "qty": 75.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 30.0}, {"name": "زيت", "unit": "جرام", "qty": 3.0}]}, {"name": "قنبله دبى بندق", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "خلطه كنافه بالبستاشيو", "unit": "جرام", "qty": 75.0}, {"name": "فراوله", "unit": "جرام", "qty": 75.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 30.0}, {"name": "بندق مقشر", "unit": "جرام", "qty": 25.0}, {"name": "زيت", "unit": "جرام", "qty": 3.0}]}], "البمبوظه": [{"name": "علبه بمبوظه ساده صغيره", "ingredients": [{"name": "موز", "unit": "جرام", "qty": 73.0}, {"name": "تفاح", "unit": "جرام", "qty": 44.0}, {"name": "عصير مانجو", "unit": "جرام", "qty": 10.0}, {"name": "كريمه البمبوزه", "unit": "جرام", "qty": 50.0}, {"name": "عصير مانجو", "unit": "جرام", "qty": 40.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 50.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 30.0}]}, {"name": "علبه بمبوظه ساده  كبيره", "ingredients": [{"name": "موز", "unit": "جرام", "qty": 170.0}, {"name": "تفاح", "unit": "جرام", "qty": 88.0}, {"name": "عصير مانجو", "unit": "جرام", "qty": 200.0}, {"name": "كريمه البمبوزه", "unit": "جرام", "qty": 100.0}, {"name": "عصير مانجو", "unit": "جرام", "qty": 60.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 100.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 60.0}]}], "الاضافات": [{"name": "ايس كريم", "ingredients": []}, {"name": "مكسرات", "ingredients": [{"name": "مكسرات مشكلة", "unit": "جرام", "qty": 60.0}]}, {"name": "نوتيلا", "ingredients": [{"name": "زيت", "unit": "جرام", "qty": 7.0}]}, {"name": "قشطه", "ingredients": []}, {"name": "بسبوسه", "ingredients": []}, {"name": "بودر لوتس", "ingredients": []}, {"name": "صوص لوتس", "ingredients": [{"name": "زيت", "unit": "جرام", "qty": 5.0}]}, {"name": "مانجو", "ingredients": [{"name": "مانجه قطع", "unit": "جرام", "qty": 165.0}]}, {"name": "فسدق حلبى", "ingredients": [{"name": "فستق حلبي", "unit": "جرام", "qty": 60.0}]}, {"name": "صوص بستاشيو", "ingredients": [{"name": "زيت", "unit": "جرام", "qty": 5.0}]}, {"name": "فراولة", "ingredients": [{"name": "فراوله", "unit": "جرام", "qty": 50.0}]}, {"name": "موز", "ingredients": []}, {"name": "اضافه الكيندر", "ingredients": [{"name": "صوص كيندر", "unit": "جرام", "qty": 35.0}, {"name": "زيت", "unit": "جرام", "qty": 3.0}]}, {"name": "اضافه اوريو", "ingredients": [{"name": "اوريو", "unit": "جرام", "qty": 40.0}]}, {"name": "اضافه صوص روشية", "ingredients": [{"name": "شيكولاته روشيه", "unit": "جرام", "qty": 60.0}]}], "الدو باغي": [{"name": "دو باغي نوتيلا", "ingredients": [{"name": "قطعة دي باغي", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 85.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 30.0}, {"name": "كريمة باستري", "unit": "جرام", "qty": 140.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 80.0}]}, {"name": "دو باغي كيندر", "ingredients": [{"name": "قطعة دي باغي", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 85.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 30.0}, {"name": "كريمة باستري", "unit": "جرام", "qty": 140.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 8.0}]}, {"name": "دو باغي سوبر لوكس", "ingredients": [{"name": "قطعة دي باغي", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 85.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 10.0}, {"name": "كريمة باستري", "unit": "جرام", "qty": 140.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 80.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 10.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 15.0}]}, {"name": "دو باغي بستاشيو", "ingredients": [{"name": "قطعة دي باغي", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 85.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 30.0}, {"name": "كريمة باستري", "unit": "جرام", "qty": 140.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 80.0}]}, {"name": "دو باغي نوتيلا كبير", "ingredients": [{"name": "قطعة دي باغي", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 250.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 60.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 200.0}]}, {"name": "دو باغي كيندر كبير", "ingredients": [{"name": "قطعة دي باغي", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 250.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 60.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 200.0}]}, {"name": "دو باغي سوبر لوكس كبير", "ingredients": [{"name": "قطعة دي باغي", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 250.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 20.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 200.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 20.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 20.0}]}, {"name": "دو باغي بستاشيو كبير", "ingredients": [{"name": "قطعة دي باغي", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 250.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 60.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 200.0}]}], "الهوبا تيتو": [{"name": "هوبا تيتو مامبو مانجو", "ingredients": [{"name": "هوبا تيتو مامبو", "unit": "عدد", "qty": 1.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 120.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 180.0}]}, {"name": "هوبا تيتو مامبو نوتيلا", "ingredients": [{"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 120.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 35.0}, {"name": "فراوله", "unit": "جرام", "qty": 100.0}, {"name": "زيت", "unit": "جرام", "qty": 5.0}]}, {"name": "هوبا تيتو مامبو بستاشيو", "ingredients": [{"name": "هوبا تيتو مامبو", "unit": "عدد", "qty": 1.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 120.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 35.0}, {"name": "فراوله", "unit": "جرام", "qty": 100.0}, {"name": "زيت", "unit": "جرام", "qty": 3.0}]}, {"name": "هوبا تيتو مامبو كيندر", "ingredients": [{"name": "هوبا تيتو مامبو", "unit": "عدد", "qty": 1.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 120.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 35.0}, {"name": "فراوله", "unit": "جرام", "qty": 100.0}, {"name": "زيت", "unit": "جرام", "qty": 3.0}]}], "الفتاكه": [{"name": "فتاكه ساده", "ingredients": []}, {"name": "فتاكه نوتيلا بستاشيو", "ingredients": [{"name": "فتاكه ساده", "unit": "عدد", "qty": 1.0}]}, {"name": "فتاكه كيندر", "ingredients": [{"name": "فتاكه ساده", "unit": "عدد", "qty": 1.0}]}, {"name": "فتاكه نوتيلا", "ingredients": [{"name": "فتاكه ساده", "unit": "عدد", "qty": 1.0}]}], "العصير": [{"name": "عصير مانجو وسط", "ingredients": [{"name": "مانجه قطع", "unit": "جرام", "qty": 190.0}, {"name": "مياة", "unit": "جرام", "qty": 200.0}, {"name": "سكر خرز", "unit": "جرام", "qty": 70.0}]}, {"name": "عصير مانجو صغير", "ingredients": [{"name": "مياة", "unit": "جرام", "qty": 170.0}, {"name": "سكر خرز", "unit": "جرام", "qty": 65.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 150.0}]}, {"name": "عصير مانجو حليب", "ingredients": [{"name": "لبن", "unit": "جرام", "qty": 60.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 190.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 40.0}, {"name": "مياة", "unit": "جرام", "qty": 100.0}, {"name": "سكر خرز", "unit": "جرام", "qty": 70.0}]}, {"name": "عصير فراولة حليب", "ingredients": [{"name": "فراولة مجمدة", "unit": "جرام", "qty": 250.0}, {"name": "لبن", "unit": "جرام", "qty": 90.0}, {"name": "مياه", "unit": "جرام", "qty": 45.0}, {"name": "سكر خرز", "unit": "جرام", "qty": 75.0}]}], "السلانكاتيه": [{"name": "سلانكتيه نيوتيلا", "ingredients": [{"name": "سلانكتيه", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 100.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 45.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 15.0}]}, {"name": "سلانكتيه لوتس", "ingredients": [{"name": "سلانكتيه", "unit": "عدد", "qty": 1.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 100.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 30.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}]}, {"name": "سلانكتيه اوريو نيوتيلا", "ingredients": [{"name": "سلانكتيه", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 100.0}, {"name": "اوريو", "unit": "جرام", "qty": 35.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 20.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 45.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 17.0}]}, {"name": "سلانكتيه باستاشيو لوتس", "ingredients": [{"name": "سلانكتيه", "unit": "عدد", "qty": 1.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 50.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 25.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 30.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 50.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}]}, {"name": "سلانكتيه كيندر", "ingredients": [{"name": "سلانكتيه", "unit": "عدد", "qty": 1.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 100.0}, {"name": "بلجيكي شيبس", "unit": "جرام", "qty": 15.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}]}, {"name": "سلانكتيه بستاشيو", "ingredients": [{"name": "سلانكتيه", "unit": "عدد", "qty": 1.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 45.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 100.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}]}, {"name": "سلانكتيه مانجو", "ingredients": [{"name": "سلانكتيه", "unit": "عدد", "qty": 1.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 250.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}]}, {"name": "سلانكتيه بيكان", "ingredients": [{"name": "سلانكتيه", "unit": "عدد", "qty": 1.0}, {"name": "بيكان", "unit": "جرام", "qty": 150.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "جرام", "qty": 0}]}, {"name": "سلانكتيه روشيه", "ingredients": [{"name": "سلانكتيه", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته روشيه", "unit": "جرام", "qty": 120.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 25.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "زيت", "unit": "كيلو جرام", "qty": 96.0}]}], "الكريب": [{"name": "شوكو كريب", "ingredients": [{"name": "بيض", "unit": "جرام", "qty": 28.0}, {"name": "لبن", "unit": "جرام", "qty": 94.0}, {"name": "زبدة", "unit": "جرام", "qty": 12.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 180.0}, {"name": "شيكولاته بيضا", "unit": "جرام", "qty": 60.0}, {"name": "زيت", "unit": "جرام", "qty": 27.0}, {"name": "دقيق", "unit": "جرام", "qty": 59.0}, {"name": "سبراي وافل", "unit": "جرام", "qty": 10.0}, {"name": "ملح", "unit": "جرام", "qty": 5.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 34.0}, {"name": "فانيليا", "unit": "جرام", "qty": 5.0}]}, {"name": "ايس شوكو كريب", "ingredients": [{"name": "ملح", "unit": "جرام", "qty": 5.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 34.0}, {"name": "فانيليا", "unit": "جرام", "qty": 5.0}, {"name": "بيض", "unit": "جرام", "qty": 28.0}, {"name": "لبن", "unit": "جرام", "qty": 93.0}, {"name": "زبدة", "unit": "جرام", "qty": 12.0}, {"name": "دقيق", "unit": "جرام", "qty": 59.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 100.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 100.0}, {"name": "شيكولاته  بيضا", "unit": "جرام", "qty": 60.0}, {"name": "زيت", "unit": "جرام", "qty": 15.0}, {"name": "سبراي وافل", "unit": "جرام", "qty": 10.0}, {"name": "اوريو", "unit": "جرام", "qty": 10.0}]}, {"name": "اوريو شيكولاته مكسرات", "ingredients": [{"name": "بيض", "unit": "جرام", "qty": 28.0}, {"name": "لبن", "unit": "جرام", "qty": 94.0}, {"name": "زبدة", "unit": "جرام", "qty": 12.0}, {"name": "دقيق", "unit": "جرام", "qty": 59.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 180.0}, {"name": "شيكولاته بيضا", "unit": "جرام", "qty": 60.0}, {"name": "زيت", "unit": "جرام", "qty": 27.0}, {"name": "اوريو", "unit": "جرام", "qty": 60.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 45.0}, {"name": "سبراي وافل", "unit": "جرام", "qty": 10.0}, {"name": "ملح", "unit": "جرام", "qty": 5.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 34.0}, {"name": "فانيليا", "unit": "جرام", "qty": 5.0}]}, {"name": "كريب دبى", "ingredients": [{"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 200.0}, {"name": "شيكولاته بيضا", "unit": "جرام", "qty": 30.0}, {"name": "شيكولاته  دارك", "unit": "جرام", "qty": 100.0}, {"name": "بيض", "unit": "جرام", "qty": 28.0}, {"name": "لبن", "unit": "جرام", "qty": 94.0}, {"name": "زبدة", "unit": "جرام", "qty": 12.0}, {"name": "دقيق", "unit": "جرام", "qty": 59.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}, {"name": "سبراي وافل", "unit": "جرام", "qty": 10.0}, {"name": "ملح", "unit": "جرام", "qty": 5.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 34.0}, {"name": "فانيليا", "unit": "جرام", "qty": 5.0}]}, {"name": "كريب ماجنم", "ingredients": [{"name": "بيض", "unit": "جرام", "qty": 28.0}, {"name": "لبن", "unit": "جرام", "qty": 94.0}, {"name": "زبدة", "unit": "جرام", "qty": 12.0}, {"name": "دقيق", "unit": "جرام", "qty": 59.0}, {"name": "ملح", "unit": "جرام", "qty": 5.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 34.0}, {"name": "فانيليا", "unit": "جرام", "qty": 5.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 30.0}, {"name": "كيكه الفادج تصنيع", "unit": "عدد", "qty": 1.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 100.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 100.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 30.0}, {"name": "سبراي وافل", "unit": "جرام", "qty": 10.0}, {"name": "زيت", "unit": "جرام", "qty": 16.0}]}, {"name": "كريب بومباستيك", "ingredients": [{"name": "بيض", "unit": "جرام", "qty": 6.0}, {"name": "لبن", "unit": "جرام", "qty": 81.0}, {"name": "زبدة", "unit": "جرام", "qty": 4.0}, {"name": "دقيق", "unit": "جرام", "qty": 75.0}, {"name": "ملح", "unit": "جرام", "qty": 2.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 12.0}, {"name": "فانليا", "unit": "جرام", "qty": 1.0}, {"name": "مياة", "unit": "جرام", "qty": 40.0}, {"name": "كاكاو", "unit": "جرام", "qty": 7.0}, {"name": "شيكولانه شيبس", "unit": "جرام", "qty": 40.0}, {"name": "قطعة هوهوز", "unit": "عدد", "qty": 2.0}, {"name": "كنافه بالبستاشيو", "unit": "جرام", "qty": 100.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 80.0}, {"name": "فراوله", "unit": "جرام", "qty": 80.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 20.0}]}], "ام علي": [{"name": "ام على ساده", "ingredients": [{"name": "سكر بدره", "unit": "جرام", "qty": 30.0}, {"name": "لبن", "unit": "جرام", "qty": 150.0}, {"name": "كريمه", "unit": "جرام", "qty": 20.0}, {"name": "ملفيه", "unit": "جرام", "qty": 50.0}]}, {"name": "ام على + مكسرات", "ingredients": [{"name": "سكر بدره", "unit": "جرام", "qty": 30.0}, {"name": "لبن", "unit": "جرام", "qty": 150.0}, {"name": "ملفيه", "unit": "جرام", "qty": 50.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 30.0}, {"name": "كريمه", "unit": "جرام", "qty": 20.0}]}, {"name": "ام على مكسرات ونوتيلا", "ingredients": [{"name": "سكر بدره", "unit": "جرام", "qty": 30.0}, {"name": "لبن", "unit": "جرام", "qty": 150.0}, {"name": "ملفيه", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 20.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 30.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 30.0}, {"name": "زيت", "unit": "جرام", "qty": 6.0}]}, {"name": "ام علي بلجيكي", "ingredients": [{"name": "سكر بدره", "unit": "جرام", "qty": 30.0}, {"name": "لبن", "unit": "جرام", "qty": 150.0}, {"name": "ملفيه", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 20.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 30.0}, {"name": "زيت", "unit": "جرام", "qty": 3.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 25.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 30.0}]}], "الامباليه": [{"name": "الامباليه مانجو", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 230.0}]}, {"name": "الامباليه فراوله", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 80.0}]}, {"name": "الامباليه موز", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "موز", "unit": "جرام", "qty": 120.0}]}, {"name": "الامباليه فراوله و موز", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "فراوله", "unit": "جرام", "qty": 75.0}, {"name": "موز", "unit": "جرام", "qty": 0.1}]}, {"name": "الامباليه شيكولاته بندق", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 80.0}, {"name": "زيت", "unit": "جرام", "qty": 12.0}, {"name": "شيكولانه شيبس", "unit": "جرام", "qty": 15.0}]}, {"name": "الامباليه لوتس", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 80.0}, {"name": "بودر لوتس", "unit": "جرام", "qty": 35.0}, {"name": "زيت", "unit": "جرام", "qty": 8.0}]}, {"name": "الامباليه روشيه", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته روشيه", "unit": "جرام", "qty": 90.0}, {"name": "زيت", "unit": "جرام", "qty": 7.0}]}, {"name": "الامباليه بيكان", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "بيكان", "unit": "جرام", "qty": 120.0}, {"name": "زيت", "unit": "جرام", "qty": 0}]}, {"name": "الامباليه بيستاشيو", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 80.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 60.0}, {"name": "زيت", "unit": "جرام", "qty": 8.0}]}, {"name": "الامباليه اوريو", "ingredients": [{"name": "صوص كيندر", "unit": "جرام", "qty": 20.0}, {"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "اوريو", "unit": "جرام", "qty": 45.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 80.0}]}, {"name": "الامباليه كيندر", "ingredients": [{"name": "صوص كيندر", "unit": "جرام", "qty": 80.0}, {"name": "زيت", "unit": "جرام", "qty": 8.0}, {"name": "شيكولانه شيبس", "unit": "جرام", "qty": 15.0}]}, {"name": "الامباليه مكسرات", "ingredients": [{"name": "الامباليه", "unit": "عدد", "qty": 1.0}, {"name": "مكسرات مشكلة", "unit": "جرام", "qty": 60.0}]}], "اللؤة": [{"name": "اللؤة بستاشيو", "ingredients": [{"name": "كريم باستري بودر", "unit": "جرام", "qty": 170.0}, {"name": "فراوله", "unit": "جرام", "qty": 130.0}, {"name": "ملفيه", "unit": "جرام", "qty": 55.0}, {"name": "كريم باستري بودر", "unit": "جرام", "qty": 55.0}, {"name": "ملفيه", "unit": "جرام", "qty": 20.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 1.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 50.0}, {"name": "زيت", "unit": "جرام", "qty": 5.0}]}, {"name": "اللؤة لوتس", "ingredients": [{"name": "كريم باستري بودر", "unit": "جرام", "qty": 170.0}, {"name": "فراوله", "unit": "جرام", "qty": 130.0}, {"name": "ملفيه", "unit": "جرام", "qty": 55.0}, {"name": "كريم باستري بودر", "unit": "جرام", "qty": 55.0}, {"name": "ملفيه", "unit": "جرام", "qty": 20.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 1.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 50.0}, {"name": "زيت", "unit": "جرام", "qty": 5.0}]}, {"name": "اللؤة مانجو", "ingredients": [{"name": "كريم باستري بودر", "unit": "جرام", "qty": 170.0}, {"name": "فراوله", "unit": "جرام", "qty": 130.0}, {"name": "ملفيه", "unit": "جرام", "qty": 55.0}, {"name": "كريم باستري بودر", "unit": "جرام", "qty": 55.0}, {"name": "ملفيه", "unit": "جرام", "qty": 20.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 1.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 165.0}]}, {"name": "اللؤة كيندر", "ingredients": [{"name": "كريم باستري بودر", "unit": "جرام", "qty": 170.0}, {"name": "فراوله", "unit": "جرام", "qty": 130.0}, {"name": "ملفيه", "unit": "جرام", "qty": 55.0}, {"name": "كريم باستري بودر", "unit": "جرام", "qty": 55.0}, {"name": "ملفيه", "unit": "جرام", "qty": 20.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 1.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 50.0}, {"name": "زيت", "unit": "جرام", "qty": 5.0}]}, {"name": "اللؤة نوتيلا", "ingredients": [{"name": "كريم باستري بودر", "unit": "جرام", "qty": 170.0}, {"name": "فراوله", "unit": "جرام", "qty": 130.0}, {"name": "ملفيه", "unit": "جرام", "qty": 55.0}, {"name": "كريم باستري بودر", "unit": "جرام", "qty": 55.0}, {"name": "ملفيه", "unit": "جرام", "qty": 20.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 50.0}, {"name": "زيت", "unit": "جرام", "qty": 5.0}]}, {"name": "اللؤة", "ingredients": [{"name": "كريم باستري بودر", "unit": "جرام", "qty": 170.0}, {"name": "فراوله", "unit": "جرام", "qty": 130.0}, {"name": "ملفيه", "unit": "جرام", "qty": 55.0}, {"name": "كريم باستري بودر", "unit": "جرام", "qty": 55.0}, {"name": "ملفيه", "unit": "جرام", "qty": 20.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 1.0}]}], "الايس كريم والجيلاتو": [{"name": "كوب ايس كريم 1بوله", "ingredients": [{"name": "ايس كريم", "unit": "جرام", "qty": 130.0}]}, {"name": "كوب ايس كريم 2 بولة", "ingredients": [{"name": "ايس كريم", "unit": "جرام", "qty": 230.0}]}, {"name": "ايس شيكولاته روما", "ingredients": [{"name": "نوتيلا", "unit": "جرام", "qty": 30.0}]}, {"name": "ايس فسدق روما", "ingredients": [{"name": "فستق حلبي", "unit": "جرام", "qty": 10.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 30.0}]}, {"name": "ايس سنيكرز روما", "ingredients": [{"name": "نوتيلا", "unit": "جرام", "qty": 30.0}]}, {"name": "ايس بندق روما", "ingredients": [{"name": "صوص كيندر", "unit": "جرام", "qty": 15.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 15.0}]}, {"name": "ايس بيكان روما", "ingredients": [{"name": "بيكان", "unit": "جرام", "qty": 30.0}]}], "الهبه": [{"name": "فادج  الصغير شيكولاته", "ingredients": [{"name": "فادج كيك الصغير", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته  دارك", "unit": "جرام", "qty": 100.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 20.0}, {"name": "زيت", "unit": "جرام", "qty": 2.0}]}, {"name": "فادج كيك الصغير كيندر", "ingredients": [{"name": "فادج كيك الصغير", "unit": "عدد", "qty": 1.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 100.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 20.0}, {"name": "زيت", "unit": "جرام", "qty": 12.0}]}, {"name": "فادج  شيكولاته بالبندق", "ingredients": [{"name": "فادج كيك الصغير", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته دارك", "unit": "جرام", "qty": 100.0}, {"name": "بندق مقشر", "unit": "جرام", "qty": 20.0}]}, {"name": "فادج الكبير شيكولاته", "ingredients": [{"name": "شيكولاته  دارك", "unit": "جرام", "qty": 130.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 40.0}, {"name": "زيت", "unit": "جرام", "qty": 4.0}]}, {"name": "فادج  الكبير كيندر", "ingredients": [{"name": "فادج كيك  كبير", "unit": "عدد", "qty": 1.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 145.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 40.0}, {"name": "زيت", "unit": "جرام", "qty": 18.0}]}, {"name": "فادج شيكولاته بندق", "ingredients": [{"name": "فادج كيك  كبير", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته دارك", "unit": "جرام", "qty": 130.0}, {"name": "بندق مقشر", "unit": "جرام", "qty": 40.0}]}], "عفاريت الاسفلت": [{"name": "قشطوطة وكشري نوتيلا", "ingredients": [{"name": "قشطوطه قشطه", "unit": "عدد", "qty": 1.0}, {"name": "كشري صغير", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 70.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 50.0}, {"name": "كريمه", "unit": "جرام", "qty": 90.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 290.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 90.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}, {"name": "شيكولانه  شيبس", "unit": "جرام", "qty": 15.0}]}, {"name": "اللؤة+ارز مانجو", "ingredients": [{"name": "رز ب لبن ساده", "unit": "عدد", "qty": 1.0}, {"name": "خليط كريم باستري بودر", "unit": "جرام", "qty": 120.0}, {"name": "فراوله", "unit": "جرام", "qty": 85.0}, {"name": "ملفيه", "unit": "جرام", "qty": 45.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 230.0}, {"name": "سكر بدره", "unit": "جرام", "qty": 5.0}]}, {"name": "هبة +قشطوطة كراميل", "ingredients": [{"name": "هبة شيكولاتة صغير", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته كوينز دارك", "unit": "جرام", "qty": 100.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 20.0}, {"name": "قشطوطه كراميل", "unit": "عدد", "qty": 1.0}]}, {"name": "هبة +كشري مانجو", "ingredients": [{"name": "هبة شيكولاتة صغير", "unit": "عدد", "qty": 1.0}, {"name": "شيكولاته كوينز دارك", "unit": "جرام", "qty": 100.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 20.0}, {"name": "كشري صغير", "unit": "عدد", "qty": 1.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 30.0}, {"name": "جلاش محمر خام", "unit": "جرام", "qty": 20.0}, {"name": "كريمه", "unit": "جرام", "qty": 40.0}, {"name": "مانجه قطع", "unit": "جرام", "qty": 120.0}]}], "العناصر الجديده": [{"name": "السبيكة", "ingredients": [{"name": "قطعة سبيكة بالعلبة", "unit": "عدد", "qty": 1.0}, {"name": "سكر خرز", "unit": "جرام", "qty": 15.0}]}, {"name": "فروليتا دبى", "ingredients": [{"name": "فراوله", "unit": "جرام", "qty": 100.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 30.0}, {"name": "كنافة محمره خام", "unit": "جرام", "qty": 35.0}, {"name": "فراوله", "unit": "جرام", "qty": 100.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 25.0}, {"name": "فستق حلبي", "unit": "جرام", "qty": 20.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 55.0}, {"name": "زيت", "unit": "جرام", "qty": 14.0}]}, {"name": "المتكندرة صغيرة", "ingredients": [{"name": "المتكندرة", "unit": "عدد", "qty": 1.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 62.0}, {"name": "زيت", "unit": "جرام", "qty": 8.0}]}, {"name": "المتكندرة كبيرة", "ingredients": [{"name": "المتكندرة", "unit": "عدد", "qty": 2.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 160.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}]}, {"name": "كريم دى لا كريم دبى", "ingredients": [{"name": "كريم دى لا كريم", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 60.0}, {"name": "فراوله", "unit": "جرام", "qty": 130.0}, {"name": "خلطه كنافه بالبستاشيو", "unit": "جرام", "qty": 130.0}, {"name": "زيت", "unit": "جرام", "qty": 9.0}]}, {"name": "لندن شورت كيك", "ingredients": []}, {"name": "ليزي كات صغيرة", "ingredients": [{"name": "شوكو بوبس", "unit": "جرام", "qty": 45.0}]}, {"name": "ليزي كات كبيرة", "ingredients": [{"name": "شوكو بوبس", "unit": "جرام", "qty": 80.0}]}, {"name": "الريمونتدا", "ingredients": [{"name": "مانجه قطع", "unit": "جرام", "qty": 180.0}]}, {"name": "دباديبو صغير", "ingredients": [{"name": "قطعه دباديبو", "unit": "عدد", "qty": 1.0}, {"name": "صوص كيندر", "unit": "جرام", "qty": 7.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 7.0}, {"name": "صوص لوتس", "unit": "جرام", "qty": 7.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 7.0}]}, {"name": "شوكو برجر", "ingredients": [{"name": "الاسبونش قاعده", "unit": "عدد", "qty": 1.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 30.0}, {"name": "رسبى برونز كيك", "unit": "عدد", "qty": 1.0}, {"name": "خلطه كنافه بالبستاشيو", "unit": "جرام", "qty": 50.0}, {"name": "موس بستاشيو", "unit": "عدد", "qty": 1.0}, {"name": "الاسبونش  قمه", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 100.0}]}, {"name": "الفزعة شيكولا صغير", "ingredients": [{"name": "الفزعة شيكولاتة صغيرة", "unit": "عدد", "qty": 1.0}, {"name": "فيوتين", "unit": "جرام", "qty": 60.0}]}, {"name": "الفزعة شيكولا كبير", "ingredients": [{"name": "فيوتين", "unit": "جرام", "qty": 80.0}, {"name": "الفزعة شيكولاتة كبيرة", "unit": "عدد", "qty": 1.0}]}, {"name": "اضافة نوتيلا للفزعة", "ingredients": [{"name": "نوتيلا", "unit": "جرام", "qty": 60.0}]}, {"name": "خالتي ماتيلدا كبيرة", "ingredients": [{"name": "نوتيلا", "unit": "جرام", "qty": 175.0}, {"name": "زيت", "unit": "جرام", "qty": 20.0}]}, {"name": "خالتي ماتيلدا صغيرة", "ingredients": [{"name": "نوتيلا", "unit": "جرام", "qty": 85.0}, {"name": "زيت", "unit": "جرام", "qty": 10.0}]}, {"name": "الكشخة", "ingredients": [{"name": "نوتيلا", "unit": "جرام", "qty": 50.0}, {"name": "فراوله", "unit": "جرام", "qty": 50.0}, {"name": "شيكولاته كوينز دارك", "unit": "جرام", "qty": 25.0}, {"name": "شيكولاته كوينز بيضا", "unit": "جرام", "qty": 25.0}]}, {"name": "الكشخة ايس", "ingredients": [{"name": "الكشخة", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 50.0}, {"name": "ايس كريم", "unit": "جرام", "qty": 60.0}, {"name": "شيكولاته كوينز دارك", "unit": "جرام", "qty": 25.0}, {"name": "شيكولاته كوينز بيضا", "unit": "جرام", "qty": 25.0}]}, {"name": "تشيز بومب", "ingredients": [{"name": "تشيز بومب تصنيع", "unit": "عدد", "qty": 1.0}, {"name": "نوتيلا", "unit": "جرام", "qty": 100.0}, {"name": "صوص بستاشيو", "unit": "جرام", "qty": 25.0}, {"name": "زيت", "unit": "جرام", "qty": 15.0}]}]};
+
+// Load from localStorage or use initial
+let D;
+try {
+  const stored = localStorage.getItem('rasbi-data');
+  D = stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(INITIAL_DATA));
+} catch(e) {
+  D = JSON.parse(JSON.stringify(INITIAL_DATA));
+}
+
+let ALL = [];
+function rebuildAll(){
+  ALL = [];
+  for(const sec of Object.keys(D)){
+    for(const it of D[sec]){
+      ALL.push({name:it.name, ingredients:it.ingredients, sec:sec});
+    }
+  }
+}
+rebuildAll();
+
+function saveData(){
+  try{ localStorage.setItem('rasbi-data', JSON.stringify(D)); }catch(e){}
+}
+
+const SECS_INITIAL = Object.keys(INITIAL_DATA);
+function getSECS(){ return Object.keys(D); }
+
+const EMO = {
+  "الارز":"🍚","الكشري":"🫙","القشطوطه":"🍯","البمبوظه":"🎁","الاضافات":"✨",
+  "الدو باغي":"🥐","الهوبا تيتو":"🌮","الفتاكه":"🍪","العصير":"🥤",
+  "السلانكاتيه":"🧇","الكريب":"🥞","ام علي":"🍮","الامباليه":"🍧",
+  "اللؤة":"🎂","الايس كريم والجيلاتو":"🍦","الهبه":"🍰",
+  "عفاريت الاسفلت":"💀","العناصر الجديده":"🌟"
+};
+const DAYS = ["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+
+const ADMIN_PWD = "qatar2025"; // كلمة المرور لمدير التشغيل
+let isAdmin = sessionStorage.getItem('rasbi-admin') === 'yes';
+
+// ===== HELPERS =====
+function $(id){ return document.getElementById(id); }
+function el(tag, attrs, children){
+  const e = document.createElement(tag);
+  if(attrs){
+    for(const k of Object.keys(attrs)){
+      if(k === "class") e.className = attrs[k];
+      else if(k === "html") e.innerHTML = attrs[k];
+      else if(k === "text") e.textContent = attrs[k];
+      else if(k.startsWith("on")) e[k] = attrs[k];
+      else if(k.startsWith("data-")) e.setAttribute(k, attrs[k]);
+      else if(k === "style" && typeof attrs[k] === "string") e.setAttribute("style", attrs[k]);
+      else e[k] = attrs[k];
+    }
+  }
+  if(children){
+    for(const c of children){
+      if(c) e.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+    }
+  }
+  return e;
+}
+
+function showToast(msg, type){
+  const t = $("toast");
+  t.textContent = msg;
+  t.className = "toast on " + (type || "");
+  setTimeout(()=>t.classList.remove("on"), 2500);
+}
+
+// ===== CLOCK =====
+function tick(){
+  const n = new Date();
+  const p = x => String(x).padStart(2,"0");
+  $("clk-t").textContent = p(n.getHours())+":"+p(n.getMinutes())+":"+p(n.getSeconds());
+  $("clk-d").textContent = DAYS[n.getDay()];
+  $("clk-dt").textContent = p(n.getDate())+"/"+p(n.getMonth()+1)+"/"+n.getFullYear();
+}
+setInterval(tick, 1000); tick();
+
+// ===== THEME =====
+function toggleTheme(){
+  const h = document.documentElement;
+  const dark = h.getAttribute("data-theme") === "dark";
+  h.setAttribute("data-theme", dark ? "light" : "dark");
+  $("theme-btn").textContent = dark ? "🌙 مود داكن" : "☀️ مود فاتح";
+  localStorage.setItem("rsbt", dark ? "light" : "dark");
+  if(aInit) redrawCharts();
+}
+(function(){
+  const sv = localStorage.getItem("rsbt");
+  if(sv) document.documentElement.setAttribute("data-theme", sv);
+})();
+
+// ===== LOGO =====
+function uploadLogo(inp){
+  if(!inp.files[0]) return;
+  const r = new FileReader();
+  r.onload = e => {
+    const img = $("logo-img");
+    img.src = e.target.result;
+    img.style.display = "block";
+    $("logo-ph").style.display = "none";
+    try{ localStorage.setItem('rasbi-logo', e.target.result); }catch(err){}
+  };
+  r.readAsDataURL(inp.files[0]);
+}
+(function(){
+  const savedLogo = localStorage.getItem('rasbi-logo');
+  if(savedLogo){
+    const img = $("logo-img");
+    img.src = savedLogo;
+    img.style.display = "block";
+    $("logo-ph").style.display = "none";
+  }
+})();
+
+// ===== ADMIN MODE =====
+function updateAdminUI(){
+  document.body.classList.toggle('admin-mode', isAdmin);
+  const btn = $("admin-btn");
+  if(isAdmin){
+    btn.textContent = "🔓 مدير التشغيل";
+    btn.classList.add('active');
+  } else {
+    btn.textContent = "🔒 تسجيل دخول";
+    btn.classList.remove('active');
+  }
+}
+
+function toggleAdmin(){
+  if(isAdmin){
+    if(confirm("هل تريد تسجيل الخروج من وضع مدير التشغيل؟")){
+      isAdmin = false;
+      sessionStorage.removeItem('rasbi-admin');
+      updateAdminUI();
+      showToast("تم تسجيل الخروج", "ok");
+    }
+  } else {
+    showPwdModal();
+  }
+}
+
+function showPwdModal(){
+  const mb = $("modal-body");
+  mb.innerHTML = "";
+  mb.className = "modal pwd-modal";
+  
+  mb.appendChild(el("button", {class:"modal-x", text:"✕", onclick:closeOverlay}));
+  mb.appendChild(el("div", {class:"modal-title", text:"🔐 دخول مدير التشغيل"}));
+  
+  const desc = el("div", {text:"أدخل كلمة المرور للتعديل على المينيو"});
+  desc.style.cssText = "color:var(--t2);font-size:13px;margin-bottom:14px;";
+  mb.appendChild(desc);
+  
+  const inp = el("input", {class:"pwd-input", type:"password", placeholder:"••••••••"});
+  inp.onkeydown = function(e){ if(e.key === "Enter") doLogin(inp.value); };
+  mb.appendChild(inp);
+  
+  const hint = el("div", {class:"pwd-hint", text:"كلمة المرور الافتراضية: qatar2025"});
+  mb.appendChild(hint);
+  
+  const acts = el("div", {class:"modal-acts"});
+  const ok = el("button", {class:"btn-save", text:"دخول"});
+  ok.style.flex = "1";
+  ok.onclick = function(){ doLogin(inp.value); };
+  acts.appendChild(ok);
+  mb.appendChild(acts);
+  
+  $("overlay").classList.add("open");
+  setTimeout(()=>inp.focus(), 100);
+}
+
+function doLogin(pwd){
+  if(pwd === ADMIN_PWD){
+    isAdmin = true;
+    sessionStorage.setItem('rasbi-admin', 'yes');
+    updateAdminUI();
+    closeOverlay();
+    showToast("مرحباً يا مدير التشغيل ✅", "ok");
+    initSections();
+  } else {
+    showToast("كلمة المرور خاطئة ❌", "err");
+  }
+}
+
+// ===== FUZZY SEARCH =====
+function lev(a, b){
+  if(!a.length) return b.length;
+  if(!b.length) return a.length;
+  const m = Array.from({length:a.length+1}, (_,i)=>i);
+  for(let j=1; j<=b.length; j++){
+    let p = j;
+    for(let i=1; i<=a.length; i++){
+      const v = m[i-1] + (a[i-1] !== b[j-1] ? 1 : 0);
+      const t = Math.min(p+1, m[i]+1, v);
+      m[i-1] = p; p = t;
+    }
+    m[a.length] = p;
+  }
+  return m[a.length];
+}
+function scoreQ(q, txt){
+  q = q.trim().toLowerCase();
+  txt = txt.toLowerCase();
+  if(!q) return 0;
+  if(txt.includes(q)) return 100;
+  let s = 0;
+  for(const w of q.split(" ")){
+    if(txt.includes(w)){ s += 60; continue; }
+    const d = lev(w, txt.substring(0, Math.min(txt.length, w.length+5)));
+    if(d <= 1) s += 55;
+    else if(d <= 2) s += 38;
+    else if(d <= 3) s += 20;
+  }
+  return s;
+}
+function doFuzzy(q){
+  if(!q || q.length < 1) return [];
+  const res = [];
+  for(let i=0; i<ALL.length; i++){
+    const it = ALL[i];
+    let sc = scoreQ(q, it.name);
+    for(const ig of it.ingredients){
+      const is = scoreQ(q, ig.name);
+      if(is > sc) sc = is * 0.75;
+    }
+    if(sc > 15) res.push({idx:i, sc:sc});
+  }
+  return res.sort((a,b)=>b.sc-a.sc).slice(0, 12);
+}
+
+// ===== SEARCH UI =====
+function doSearch(q){
+  const rEl = $("s-results");
+  const ft = $("s-featured");
+  if(!q.trim()){ rEl.style.display = "none"; ft.style.display = "block"; return; }
+  ft.style.display = "none";
+  const res = doFuzzy(q);
+  rEl.style.display = "block";
+  rEl.innerHTML = "";
+  if(!res.length){
+    const d = el("div", {text:"لم أجد نتائج، جرّب كلمة أخرى"});
+    d.style.cssText = "padding:14px;color:var(--t3);text-align:center";
+    rEl.appendChild(d);
+    return;
+  }
+  for(const r of res){
+    const it = ALL[r.idx];
+    const item = el("div", {class:"s-item"});
+    item.appendChild(el("div", {class:"s-item-name", text:it.name}));
+    item.appendChild(el("div", {class:"s-item-sec", text:(EMO[it.sec]||"🍽️")+" دنيا "+it.sec}));
+    item.appendChild(el("div", {class:"s-item-sc", text:it.ingredients.length+" مكون · تطابق "+Math.round(r.sc)+"%"}));
+    item.onclick = function(){ showModal(it); };
+    rEl.appendChild(item);
+  }
+}
+
+// ===== MODAL =====
+function recTxt(it){
+  let t = "🍽️ *" + it.name + "*\n📂 دنيا " + it.sec + "\n\n📝 المكونات:\n";
+  for(const ig of it.ingredients)
+    t += "• " + ig.name + ": " + (ig.qty > 0 ? ig.qty + " " + (ig.unit||"") : "—") + "\n";
+  return t + "\n🏷️ رسبي | ب لبن قطر";
+}
+
+function showModal(it){
+  if(!it) return;
+  const txt = recTxt(it);
+  const mb = $("modal-body");
+  mb.innerHTML = "";
+  mb.className = "modal";
+  
+  mb.appendChild(el("button", {class:"modal-x", text:"✕", onclick:closeOverlay}));
+  mb.appendChild(el("div", {class:"modal-title", text:it.name}));
+  mb.appendChild(el("div", {class:"modal-badge", text:(EMO[it.sec]||"🍽️")+" دنيا "+it.sec}));
+  
+  const table = el("table", {class:"rtbl"});
+  const thead = el("thead");
+  const trh = el("tr");
+  trh.appendChild(el("th", {text:"المكون"}));
+  trh.appendChild(el("th", {text:"الكمية"}));
+  trh.appendChild(el("th", {text:"الوحدة"}));
+  thead.appendChild(trh);
+  table.appendChild(thead);
+  
+  const tbody = el("tbody");
+  for(const ig of it.ingredients){
+    const tr = el("tr");
+    tr.appendChild(el("td", {text:ig.name}));
+    const td2 = el("td");
+    td2.appendChild(el("span", {class:"qbadge", text:ig.qty>0?String(ig.qty):"—"}));
+    tr.appendChild(td2);
+    tr.appendChild(el("td", {text:ig.unit||""}));
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  mb.appendChild(table);
+  
+  const acts = el("div", {class:"modal-acts"});
+  
+  const waBtn = el("button", {class:"btn-wa", text:"📲 شارك واتساب"});
+  waBtn.onclick = function(){ window.open("https://wa.me/?text="+encodeURIComponent(txt), "_blank"); };
+  acts.appendChild(waBtn);
+  
+  const cpBtn = el("button", {class:"btn-cp", text:"📋 نسخ النص"});
+  cpBtn.onclick = function(){ copyText(txt); };
+  acts.appendChild(cpBtn);
+  
+  const editBtn = el("button", {class:"btn-edit", text:"✏️ تعديل"});
+  editBtn.onclick = function(){ openEditForm(it); };
+  acts.appendChild(editBtn);
+  
+  mb.appendChild(acts);
+  $("overlay").classList.add("open");
+}
+
+function copyText(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(()=>showToast("تم النسخ ✅", "ok")).catch(()=>fallbackCopy(txt));
+  } else {
+    fallbackCopy(txt);
+  }
+}
+function fallbackCopy(txt){
+  const ta = document.createElement("textarea");
+  ta.value = txt;
+  document.body.appendChild(ta);
+  ta.select();
+  try{ document.execCommand("copy"); showToast("تم النسخ ✅", "ok"); }
+  catch(e){ showToast("فشل النسخ", "err"); }
+  document.body.removeChild(ta);
+}
+
+function closeOverlay(){ $("overlay").classList.remove("open"); }
+
+// ===== EDIT / ADD ITEMS =====
+function openEditForm(item){
+  if(!isAdmin){ showToast("يجب تسجيل الدخول كمدير تشغيل", "err"); return; }
+  
+  const mb = $("modal-body");
+  mb.innerHTML = "";
+  mb.className = "modal";
+  
+  mb.appendChild(el("button", {class:"modal-x", text:"✕", onclick:closeOverlay}));
+  mb.appendChild(el("div", {class:"modal-title", text:item ? "✏️ تعديل: "+item.name : "➕ إضافة صنف جديد"}));
+  
+  const form = el("div", {class:"edit-form"});
+  
+  // Name field
+  const nameRow = el("div", {class:"f-row"});
+  nameRow.appendChild(el("label", {text:"اسم الصنف"}));
+  const nameInp = el("input", {type:"text", value:item ? item.name : ""});
+  nameRow.appendChild(nameInp);
+  form.appendChild(nameRow);
+  
+  // Section field
+  const secRow = el("div", {class:"f-row"});
+  secRow.appendChild(el("label", {text:"القسم"}));
+  const secSel = el("select");
+  for(const s of getSECS()){
+    const op = el("option", {value:s, text:"دنيا "+s});
+    if(item && item.sec === s) op.selected = true;
+    secSel.appendChild(op);
+  }
+  secRow.appendChild(secSel);
+  form.appendChild(secRow);
+  
+  // Ingredients
+  const ingLabel = el("label", {text:"المكونات"});
+  ingLabel.style.cssText = "font-size:13px;color:var(--t2);font-weight:700;margin-top:6px;";
+  form.appendChild(ingLabel);
+  
+  const ingList = el("div", {class:"ing-list", id:"edit-ing-list"});
+  form.appendChild(ingList);
+  
+  const startIngs = item ? JSON.parse(JSON.stringify(item.ingredients)) : [{name:"", unit:"جرام", qty:0}];
+  for(const ig of startIngs) addIngRow(ingList, ig);
+  
+  const addBtn = el("button", {class:"add-ing-btn", text:"+ إضافة مكون"});
+  addBtn.onclick = function(){ addIngRow(ingList, {name:"", unit:"جرام", qty:0}); };
+  form.appendChild(addBtn);
+  
+  // Actions
+  const acts = el("div", {class:"f-actions"});
+  const saveBtn = el("button", {class:"btn-save", text:item ? "💾 حفظ التعديل" : "➕ إضافة الصنف"});
+  saveBtn.onclick = function(){ saveItem(item, nameInp.value, secSel.value, ingList); };
+  acts.appendChild(saveBtn);
+  
+  const cancelBtn = el("button", {class:"btn-cancel", text:"إلغاء"});
+  cancelBtn.onclick = closeOverlay;
+  acts.appendChild(cancelBtn);
+  form.appendChild(acts);
+  
+  mb.appendChild(form);
+  $("overlay").classList.add("open");
+}
+
+function addIngRow(parent, data){
+  const row = el("div", {class:"ing-row"});
+  const nm = el("input", {type:"text", placeholder:"اسم المكون", value:data.name||""});
+  row.appendChild(nm);
+  
+  const qty = el("input", {type:"number", placeholder:"الكمية", value:data.qty||0, step:"any"});
+  row.appendChild(qty);
+  
+  const unit = el("select");
+  for(const u of ["جرام","عدد","كيلو","لتر","مل","قطعه","كوب"]){
+    const op = el("option", {value:u, text:u});
+    if(data.unit === u) op.selected = true;
+    unit.appendChild(op);
+  }
+  row.appendChild(unit);
+  
+  const del = el("button", {class:"ing-del", text:"🗑"});
+  del.onclick = function(){ row.remove(); };
+  row.appendChild(del);
+  
+  parent.appendChild(row);
+}
+
+function saveItem(originalItem, name, sec, ingList){
+  name = name.trim();
+  if(!name){ showToast("اسم الصنف مطلوب", "err"); return; }
+  if(!sec){ showToast("اختر قسم", "err"); return; }
+  
+  const ings = [];
+  const rows = ingList.querySelectorAll(".ing-row");
+  for(const r of rows){
+    const inputs = r.querySelectorAll("input, select");
+    const ingName = inputs[0].value.trim();
+    const ingQty = parseFloat(inputs[1].value) || 0;
+    const ingUnit = inputs[2].value;
+    if(ingName) ings.push({name:ingName, qty:ingQty, unit:ingUnit});
+  }
+  
+  if(!ings.length){ showToast("أضف مكون واحد على الأقل", "err"); return; }
+  
+  if(originalItem){
+    // Edit: remove old, add new
+    const oldSec = originalItem.sec;
+    const idx = D[oldSec].findIndex(x => x.name === originalItem.name);
+    if(idx >= 0) D[oldSec].splice(idx, 1);
+  }
+  
+  if(!D[sec]) D[sec] = [];
+  // Check duplicate
+  const existing = D[sec].findIndex(x => x.name === name);
+  if(existing >= 0){
+    if(originalItem && originalItem.name === name && originalItem.sec === sec){
+      // self-edit ok
+    } else {
+      showToast("يوجد صنف بنفس الاسم في هذا القسم", "err");
+      // restore if edit
+      if(originalItem){
+        D[originalItem.sec].push(originalItem);
+      }
+      return;
+    }
+  }
+  
+  D[sec].push({name:name, ingredients:ings});
+  saveData();
+  rebuildAll();
+  closeOverlay();
+  showToast(originalItem ? "تم الحفظ ✅" : "تم إضافة الصنف ✅", "ok");
+  
+  // Refresh views
+  initSections();
+  initQuickSecs();
+  updateHeaderStats();
+  if(currentSectionView) showSec(currentSectionView);
+  if(aInit){ aInit = false; const av = $("view-analytics"); if(av.classList.contains("active")) { initAnalytics(); aInit = true; } }
+}
+
+function deleteItem(item){
+  if(!isAdmin){ showToast("يجب تسجيل الدخول", "err"); return; }
+  if(!confirm("هل تريد حذف \"" + item.name + "\"؟")) return;
+  const idx = D[item.sec].findIndex(x => x.name === item.name);
+  if(idx >= 0){
+    D[item.sec].splice(idx, 1);
+    saveData();
+    rebuildAll();
+    showToast("تم الحذف 🗑", "ok");
+    if(currentSectionView) showSec(currentSectionView);
+    initQuickSecs();
+    updateHeaderStats();
+  }
+}
+
+function updateHeaderStats(){ /* stats removed from header */ }
+
+// ===== NAV =====
+let aInit = false;
+function gotoView(name, btn){
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.querySelectorAll(".ntab").forEach(t => t.classList.remove("active"));
+  $("view-"+name).classList.add("active");
+  if(btn) btn.classList.add("active");
+  if(name === "analytics" && !aInit){ initAnalytics(); aInit = true; }
+}
+
+// ===== SECTIONS =====
+let currentSectionView = null;
+
+function buildSectionCard(sec, withPreview){
+  const card = el("div", {class:"card"});
+  card.appendChild(el("div", {class:"card-title", text:(EMO[sec]||"🍽️")+" دنيا "+sec}));
+  const cnt = el("div", {class:"card-count"});
+  cnt.innerHTML = '<span>'+D[sec].length+'</span> صنف';
+  card.appendChild(cnt);
+  if(withPreview){
+    const pv = el("div");
+    pv.style.cssText = "margin-top:7px;display:flex;flex-wrap:wrap;gap:3px";
+    for(let i=0; i<Math.min(3, D[sec].length); i++){
+      const sp = el("span", {text:"• "+D[sec][i].name});
+      sp.style.cssText = "font-size:10px;color:var(--t3)";
+      pv.appendChild(sp);
+    }
+    if(D[sec].length > 3){
+      const sp = el("span", {text:"+"+(D[sec].length-3)});
+      sp.style.cssText = "font-size:10px;color:var(--or3);font-weight:700";
+      pv.appendChild(sp);
+    }
+    card.appendChild(pv);
+  }
+  card.onclick = function(){ showSec(sec); };
+  return card;
+}
+
+function initSections(){
+  const ov = $("sec-ov");
+  ov.innerHTML = "";
+  const h = el("div", {class:"h-glow", text:"اختر قسماً 📋"});
+  h.style.marginBottom = "14px";
+  ov.appendChild(h);
+  const g = el("div", {class:"grid3"});
+  for(const s of getSECS()) g.appendChild(buildSectionCard(s, true));
+  ov.appendChild(g);
+}
+
+function showSec(sec){
+  currentSectionView = sec;
+  const items = D[sec];
+  $("sec-ov").style.display = "none";
+  const det = $("sec-det");
+  det.style.display = "block";
+  det.innerHTML = "";
+  
+  const hdr = el("div", {class:"sec-header"});
+  hdr.appendChild(el("button", {class:"back-btn", text:"← رجوع", onclick:backSecs}));
+  hdr.appendChild(el("div", {class:"sec-big", text:(EMO[sec]||"🍽️")+" دنيا "+sec}));
+  const cntSp = el("span", {text:items.length+" صنف"});
+  cntSp.style.cssText = "color:var(--t3);font-size:13px";
+  hdr.appendChild(cntSp);
+  
+  const addBtn = el("button", {class:"add-new-btn", text:"➕ إضافة صنف"});
+  addBtn.onclick = function(){
+    const newItem = {name:"", sec:sec, ingredients:[]};
+    openEditForm(null);
+    // Pre-select section
+    setTimeout(()=>{
+      const sel = document.querySelector(".edit-form select");
+      if(sel){
+        for(let i=0; i<sel.options.length; i++){
+          if(sel.options[i].value === sec) sel.selectedIndex = i;
+        }
+      }
+    }, 50);
+  };
+  hdr.appendChild(addBtn);
+  det.appendChild(hdr);
+  
+  const grid = el("div", {class:"grid4"});
+  for(const it of items){
+    const itemRef = ALL.find(x => x.name === it.name && x.sec === sec);
+    if(!itemRef) continue;
+    
+    const card = el("div", {class:"icard"});
+    card.appendChild(el("div", {class:"icard-name", text:it.name}));
+    
+    const tags = el("div", {class:"tags"});
+    for(let j=0; j<Math.min(4, it.ingredients.length); j++)
+      tags.appendChild(el("span", {class:"tag", text:it.ingredients[j].name}));
+    if(it.ingredients.length > 4)
+      tags.appendChild(el("span", {class:"tag", text:"+"+(it.ingredients.length-4)}));
+    card.appendChild(tags);
+    
+    const waMini = el("button", {class:"wa-mini", text:"📲"});
+    waMini.onclick = function(e){
+      e.stopPropagation();
+      window.open("https://wa.me/?text="+encodeURIComponent(recTxt(itemRef)), "_blank");
+    };
+    card.appendChild(waMini);
+    
+    const editMini = el("button", {class:"edit-mini", text:"✏️"});
+    editMini.onclick = function(e){
+      e.stopPropagation();
+      openEditForm(itemRef);
+    };
+    card.appendChild(editMini);
+    
+    const delMini = el("button", {class:"del-mini", text:"🗑"});
+    delMini.onclick = function(e){
+      e.stopPropagation();
+      deleteItem(itemRef);
+    };
+    card.appendChild(delMini);
+    
+    card.onclick = function(){ showModal(itemRef); };
+    grid.appendChild(card);
+  }
+  det.appendChild(grid);
+}
+
+function backSecs(){
+  currentSectionView = null;
+  $("sec-ov").style.display = "block";
+  $("sec-det").style.display = "none";
+}
+
+function initQuickSecs(){
+  const qs = $("qs-grid");
+  qs.innerHTML = "";
+  for(const s of getSECS()){
+    const card = buildSectionCard(s, false);
+    card.onclick = function(){
+      gotoView("sections", document.querySelectorAll(".ntab")[1]);
+      showSec(s);
+    };
+    qs.appendChild(card);
+  }
+}
+
+// ===== ANALYTICS =====
+let chSec = null, chIng = null;
+function gc(){
+  const dark = document.documentElement.getAttribute("data-theme") === "dark";
+  return {grid: dark ? "rgba(160,240,200,0.08)" : "rgba(45,158,122,0.08)", tick: dark ? "#7BD9B8" : "#2D9E7A"};
+}
+function redrawCharts(){
+  if(chSec){ chSec.destroy(); chSec = null; }
+  if(chIng){ chIng.destroy(); chIng = null; }
+  drawSec(); drawIng();
+}
+function drawSec(){
+  const ctx = $("ch-sec").getContext("2d");
+  const SECS = getSECS();
+  const olives = SECS.map((_, i) => "hsla(" + (155 + i*4) + ",55%," + (45 + i*1.2) + "%, 0.88)");
+  chSec = new Chart(ctx, {
+    type: "doughnut",
+    data: {labels: SECS.map(s => "دنيا "+s), datasets: [{data: SECS.map(s => D[s].length), backgroundColor: olives, borderColor: "transparent", borderWidth: 0}]},
+    options: {responsive: true, maintainAspectRatio: false, plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => " "+c.label+": "+c.raw+" صنف"}}}}
+  });
+}
+function drawIng(){
+  const INGS = ["مانجه قطع","فراوله","نوتيلا","كنافه بالبستاشيو","ايس كريم","صوص بستاشيو"];
+  const cols = ["#2D9E7A","#4FBE9A","#7BD9B8","#1A6B52","#3FB088","#0F4A38"];
+  const {grid, tick} = gc();
+  const SECS = getSECS();
+  const ctx = $("ch-ing").getContext("2d");
+  chIng = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: SECS.map(s => "دنيا "+s),
+      datasets: INGS.map((ing, i) => ({
+        label: ing,
+        data: SECS.map(sec => {
+          let t = 0;
+          for(const it of D[sec]) for(const ig of it.ingredients) if(ig.name === ing) t += ig.qty;
+          return t;
+        }),
+        backgroundColor: cols[i],
+        borderRadius: 3
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => " "+c.dataset.label+": "+c.raw+"g"}}},
+      scales: {
+        x: {stacked: true, ticks: {color: tick, font: {size: 9}, maxRotation: 50}, grid: {color: grid}},
+        y: {stacked: true, ticks: {color: tick}, grid: {color: grid}}
+      }
+    }
+  });
+}
+
+function initAnalytics(){
+  const SECS = getSECS();
+  const usg = {};
+  for(const it of ALL) for(const ig of it.ingredients) usg[ig.name] = (usg[ig.name]||0) + ig.qty;
+  const top = Object.entries(usg).sort((a,b)=>b[1]-a[1]);
+  const mx = top.length ? top[0][1] : 1;
+  
+  const am = $("a-metrics");
+  am.innerHTML = "";
+  const biggestSec = SECS.reduce((a,b)=> D[a].length > D[b].length ? a : b);
+  const mdata = [
+    [ALL.length, "إجمالي الأصناف"],
+    [SECS.length, "عدد الأقسام"],
+    [Object.keys(usg).length, "خامة مختلفة"],
+    [D[biggestSec].length, "أكبر قسم ("+biggestSec+")"],
+    [top.length ? top[0][0] : "—", "أعلى استهلاكاً"],
+    [(ALL.reduce((s,i)=>s+i.ingredients.length, 0)/Math.max(1, ALL.length)).toFixed(1), "متوسط مكونات/صنف"]
+  ];
+  for(const [v, l] of mdata){
+    const mc = el("div", {class:"mcard"});
+    mc.appendChild(el("div", {class:"mval", text:String(v)}));
+    mc.appendChild(el("div", {class:"mlbl", text:l}));
+    am.appendChild(mc);
+  }
+  
+  drawSec();
+  
+  const rl = $("rank-list");
+  rl.innerHTML = "";
+  for(let i=0; i<Math.min(12, top.length); i++){
+    const [nm, qty] = top[i];
+    const row = el("div", {class:"rank-row"});
+    row.appendChild(el("div", {class:"rank-n", text:String(i+1)}));
+    const bw = el("div", {class:"rank-bw"});
+    bw.appendChild(el("div", {class:"rank-nm", text:nm}));
+    const bg = el("div", {class:"rank-bg"});
+    const fill = el("div", {class:"rank-fill"});
+    fill.style.width = Math.round(qty/mx*100) + "%";
+    bg.appendChild(fill);
+    bw.appendChild(bg);
+    row.appendChild(bw);
+    row.appendChild(el("div", {class:"rank-qty", text:Math.round(qty)+"g"}));
+    rl.appendChild(row);
+  }
+  
+  drawIng();
+  
+  const sa = $("a-sec-cards");
+  sa.innerHTML = "";
+  const ttl = el("div", {class:"h-glow", text:"تحليل كل قسم على حدة 🔬"});
+  ttl.style.marginBottom = "14px";
+  sa.appendChild(ttl);
+  const sg = el("div", {class:"grid3"});
+  for(const sec of SECS){
+    const usgS = {};
+    for(const it of D[sec]) for(const ig of it.ingredients) usgS[ig.name] = (usgS[ig.name]||0) + ig.qty;
+    const t3 = Object.entries(usgS).sort((a,b)=>b[1]-a[1]).slice(0, 3);
+    
+    const c = el("div", {class:"card"});
+    c.appendChild(el("div", {class:"card-title", text:(EMO[sec]||"🍽️")+" دنيا "+sec}));
+    const cnt = el("div");
+    cnt.style.marginBottom = "6px";
+    cnt.innerHTML = '<span style="color:var(--or3);font-weight:700">'+D[sec].length+'</span> <span style="color:var(--t3);font-size:13px">صنف</span>';
+    c.appendChild(cnt);
+    const sub = el("div", {text:"أكثر الخامات:"});
+    sub.style.cssText = "font-size:11px;color:var(--t3);margin-bottom:4px";
+    c.appendChild(sub);
+    for(const [n, q] of t3){
+      const r = el("div");
+      r.style.cssText = "display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px solid var(--bdr)";
+      const sn = el("span", {text:n}); sn.style.color = "var(--t2)";
+      const sq = el("span", {text:Math.round(q)+"g"}); sq.style.cssText = "color:var(--or3);font-weight:700";
+      r.appendChild(sn); r.appendChild(sq);
+      c.appendChild(r);
+    }
+    c.onclick = function(){ gotoView("sections", document.querySelectorAll(".ntab")[1]); showSec(sec); };
+    sg.appendChild(c);
+  }
+  sa.appendChild(sg);
+}
+
+// ===== DOWNLOADS =====
+function downloadFile(filename, content, mime){
+  const blob = new Blob([content], {type:mime});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+
+function downloadExcel(){
+  // Build CSV with BOM for Arabic
+  let csv = "\uFEFF"; // BOM for UTF-8
+  csv += "القسم,الصنف,المكون,الكمية,الوحدة\n";
+  for(const sec of getSECS()){
+    for(const it of D[sec]){
+      if(it.ingredients.length === 0){
+        csv += '"دنيا '+sec+'","'+it.name+'","","",""\n';
+      } else {
+        for(const ig of it.ingredients){
+          csv += '"دنيا '+sec+'","'+it.name+'","'+ig.name+'","'+(ig.qty||"")+'","'+(ig.unit||"")+'"\n';
+        }
+      }
+    }
+  }
+  downloadFile("رسبي_منيو_كامل.csv", csv, "text/csv;charset=utf-8");
+  showToast("تم تحميل ملف Excel ✅", "ok");
+}
+
+function downloadMenuPDF(){
+  generatePDF("full");
+}
+
+function downloadAnalyticsPDF(){
+  generatePDF("analytics");
+}
+
+function generatePDF(type){
+  // Generate a printable HTML page that user can save as PDF
+  const w = window.open("", "_blank");
+  if(!w){ showToast("افتح النوافذ المنبثقة للموقع", "err"); return; }
+  
+  let body = "";
+  const SECS = getSECS();
+  
+  if(type === "full"){
+    body = '<h1 style="text-align:center;color:#1F5C4A">رسبي مينيو الكامل | ب لبن قطر</h1>';
+    body += '<p style="text-align:center;color:#666">إدارة تشغيل قطر — بلال الأنصاري</p>';
+    body += '<p style="text-align:center;color:#999;font-size:12px">تاريخ التصدير: '+new Date().toLocaleString("ar-EG")+'</p><hr>';
+    
+    for(const sec of SECS){
+      body += '<h2 style="color:#1F5C4A;border-bottom:2px solid #1F5C4A;padding-bottom:6px;margin-top:20px;">'+(EMO[sec]||"🍽️")+' دنيا '+sec+' ('+D[sec].length+' صنف)</h2>';
+      for(const it of D[sec]){
+        body += '<div style="margin:12px 0;padding:10px;border:1px solid #ddd;border-radius:8px;page-break-inside:avoid;">';
+        body += '<h3 style="color:#0F3528;margin-bottom:8px;">'+it.name+'</h3>';
+        if(it.ingredients.length){
+          body += '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+          body += '<tr style="background:#C5EBD5"><th style="padding:6px;text-align:right;">المكون</th><th style="padding:6px;text-align:right;">الكمية</th><th style="padding:6px;text-align:right;">الوحدة</th></tr>';
+          for(const ig of it.ingredients){
+            body += '<tr><td style="padding:5px;border-bottom:1px solid #eee">'+ig.name+'</td><td style="padding:5px;border-bottom:1px solid #eee">'+(ig.qty||"—")+'</td><td style="padding:5px;border-bottom:1px solid #eee">'+(ig.unit||"")+'</td></tr>';
+          }
+          body += '</table>';
+        }
+        body += '</div>';
+      }
+    }
+  } else {
+    // Analytics
+    body = '<h1 style="text-align:center;color:#1F5C4A">تحليل المينيو الشامل | رسبي قطر</h1>';
+    body += '<p style="text-align:center;color:#666">إدارة تشغيل قطر — بلال الأنصاري</p>';
+    body += '<p style="text-align:center;color:#999;font-size:12px">تاريخ التصدير: '+new Date().toLocaleString("ar-EG")+'</p><hr>';
+    
+    body += '<h2 style="color:#1F5C4A">📊 الإحصائيات العامة</h2>';
+    body += '<table style="width:100%;border-collapse:collapse;font-size:14px;">';
+    body += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">إجمالي الأصناف</td><td style="padding:8px;border:1px solid #ddd;">'+ALL.length+'</td></tr>';
+    body += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">عدد الأقسام</td><td style="padding:8px;border:1px solid #ddd;">'+SECS.length+'</td></tr>';
+    
+    const usg = {};
+    for(const it of ALL) for(const ig of it.ingredients) usg[ig.name] = (usg[ig.name]||0) + ig.qty;
+    body += '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;">عدد الخامات</td><td style="padding:8px;border:1px solid #ddd;">'+Object.keys(usg).length+'</td></tr>';
+    body += '</table>';
+    
+    body += '<h2 style="color:#1F5C4A;margin-top:24px;">🧪 أكثر الخامات استخداماً</h2>';
+    const top = Object.entries(usg).sort((a,b)=>b[1]-a[1]).slice(0, 15);
+    body += '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+    body += '<tr style="background:#C5EBD5"><th style="padding:8px;text-align:right;">#</th><th style="padding:8px;text-align:right;">الخامة</th><th style="padding:8px;text-align:right;">الاستهلاك الكلي</th></tr>';
+    for(let i=0; i<top.length; i++){
+      body += '<tr><td style="padding:6px;border-bottom:1px solid #eee">'+(i+1)+'</td><td style="padding:6px;border-bottom:1px solid #eee">'+top[i][0]+'</td><td style="padding:6px;border-bottom:1px solid #eee">'+Math.round(top[i][1])+' g</td></tr>';
+    }
+    body += '</table>';
+    
+    body += '<h2 style="color:#1F5C4A;margin-top:24px;">📋 تحليل الأقسام</h2>';
+    body += '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+    body += '<tr style="background:#C5EBD5"><th style="padding:8px;text-align:right;">القسم</th><th style="padding:8px;text-align:right;">عدد الأصناف</th><th style="padding:8px;text-align:right;">أكثر خامة</th></tr>';
+    for(const sec of SECS){
+      const usgS = {};
+      for(const it of D[sec]) for(const ig of it.ingredients) usgS[ig.name] = (usgS[ig.name]||0) + ig.qty;
+      const topS = Object.entries(usgS).sort((a,b)=>b[1]-a[1])[0];
+      body += '<tr><td style="padding:6px;border-bottom:1px solid #eee">دنيا '+sec+'</td><td style="padding:6px;border-bottom:1px solid #eee">'+D[sec].length+'</td><td style="padding:6px;border-bottom:1px solid #eee">'+(topS ? topS[0]+" ("+Math.round(topS[1])+"g)" : "—")+'</td></tr>';
+    }
+    body += '</table>';
+  }
+  
+  const html = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>'+(type==="full"?"رسبي مينيو":"التحليل الشامل")+'</title><style>body{font-family:Tajawal,Arial,sans-serif;padding:30px;line-height:1.6;color:#333;}h1{font-size:28px;}h2{font-size:20px;}h3{font-size:16px;}@media print{body{padding:15px;}}</style><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"></head><body>'+body+'<div style="text-align:center;margin-top:30px;color:#999;font-size:11px;">رسبي | ب لبن قطر — إدارة تشغيل قطر</div><script>setTimeout(function(){window.print();}, 800);</'+'script></body></html>';
+  
+  w.document.write(html);
+  w.document.close();
+  showToast("جاهز للطباعة كـ PDF 📄", "ok");
+}
+
+// ===== CHATBOT =====
+let botOpen = false;
+function toggleBot(){
+  botOpen = !botOpen;
+  $("bot-panel").classList.toggle("open", botOpen);
+  if(botOpen) setTimeout(()=>$("chat-inp").focus(), 320);
+}
+function sendMsg(){
+  const inp = $("chat-inp");
+  const q = inp.value.trim();
+  if(!q) return;
+  inp.value = "";
+  addCMsg(q, "user");
+  showTyping();
+  setTimeout(()=>{ rmTyping(); renderBotReply(q); }, 700);
+}
+function addCMsg(content, type){
+  const c = $("chat-msgs");
+  const d = el("div", {class:"cmsg "+type});
+  if(type === "bot"){
+    d.appendChild(el("div", {class:"blbl", text:"🤖 رسبي بوت"}));
+    if(typeof content === "string") d.appendChild(el("div", {html:content}));
+    else if(content && content.nodeType) d.appendChild(content);
+  } else {
+    d.textContent = content;
+  }
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+let typEl = null;
+function showTyping(){
+  const c = $("chat-msgs");
+  typEl = el("div", {class:"typing"});
+  for(let i=0; i<3; i++) typEl.appendChild(el("div", {class:"td"}));
+  c.appendChild(typEl);
+  c.scrollTop = c.scrollHeight;
+}
+function rmTyping(){ if(typEl){ typEl.remove(); typEl = null; } }
+
+function renderBotReply(q){
+  const ql = q.toLowerCase().trim();
+  const SECS = getSECS();
+  
+  for(const sec of SECS){
+    if(ql.includes(sec) && (ql.includes("كم")||ql.includes("عدد")||ql.includes("اصناف")||ql.includes("أصناف"))){
+      addCMsg('قسم <b>دنيا '+sec+'</b> فيه <span style="color:var(--or3);font-weight:800">'+D[sec].length+'</span> صنف 🎯', "bot");
+      return;
+    }
+  }
+  
+  const IM = {"فستق":"فستق حلبي","نوتيلا":"نوتيلا","مانجو":"مانجه قطع","لوتس":"صوص لوتس",
+    "بيكان":"بيكان","كيندر":"صوص كيندر","اوريو":"اوريو","بستاشيو":"صوص بستاشيو",
+    "ايس":"ايس كريم","روشيه":"شيكولاته روشيه","فراوله":"فراوله","موز":"موز"};
+  if(ql.includes("فيها")||ql.includes("يحتوي")||ql.includes("اصناف")||ql.includes("أصناف")){
+    for(const kw of Object.keys(IM)){
+      if(ql.includes(kw)){
+        const mt = ALL.filter(i => i.ingredients.some(x => x.name.includes(kw)));
+        if(mt.length){
+          let r = 'الأصناف التي تحتوي على <b>'+IM[kw]+'</b> ('+mt.length+' صنف):<br><br>';
+          for(let i=0; i<Math.min(8, mt.length); i++)
+            r += '🍽️ '+mt[i].name+' <span style="color:var(--t3);font-size:11px">(دنيا '+mt[i].sec+')</span><br>';
+          if(mt.length > 8) r += '<span style="color:var(--or3)">... و'+(mt.length-8)+' أخرى</span>';
+          addCMsg(r, "bot");
+          return;
+        }
+      }
+    }
+  }
+  
+  if(ql.match(/^(مرحبا|هلا|اهلا|السلام|هاي|مساء|صباح)/)){
+    addCMsg("أهلاً! 😊 اسألني عن أي صنف في مينيو رسبي قطر 🍽️", "bot");
+    return;
+  }
+  
+  const res = doFuzzy(q);
+  if(res.length > 0){
+    const it = ALL[res[0].idx];
+    const wrap = el("div");
+    wrap.innerHTML = 'وجدت <b>'+res.length+'</b> نتيجة:';
+    
+    const crc = el("div", {class:"crc"});
+    crc.appendChild(el("div", {class:"crc-title", text:it.name}));
+    const sub = el("div", {text:"📂 دنيا "+it.sec});
+    sub.style.cssText = "font-size:11px;color:var(--t3);margin-bottom:6px";
+    crc.appendChild(sub);
+    for(const ig of it.ingredients){
+      const row = el("div", {class:"crc-row"});
+      row.appendChild(el("span", {class:"crc-name", text:ig.name}));
+      row.appendChild(el("span", {class:"crc-qty", text:ig.qty>0 ? ig.qty+" "+(ig.unit||"") : "—"}));
+      crc.appendChild(row);
+    }
+    
+    const acts = el("div", {class:"c-acts"});
+    const wa = el("button", {class:"c-wa", text:"📲 واتساب"});
+    wa.onclick = function(){ window.open("https://wa.me/?text="+encodeURIComponent(recTxt(it)), "_blank"); };
+    const cp = el("button", {class:"c-cp", text:"📋 نسخ"});
+    cp.onclick = function(){ copyText(recTxt(it)); };
+    acts.appendChild(wa); acts.appendChild(cp);
+    crc.appendChild(acts);
+    wrap.appendChild(crc);
+    
+    if(res.length > 1){
+      const sg = el("div");
+      sg.style.cssText = "margin-top:6px;font-size:11px;color:var(--t3)";
+      sg.appendChild(document.createTextNode("أخرى: "));
+      for(let i=1; i<Math.min(4, res.length); i++){
+        const ri = ALL[res[i].idx];
+        const sp = el("span", {text:ri.name});
+        sp.style.cssText = "color:var(--or3);cursor:pointer;text-decoration:underline";
+        sp.onclick = function(){ $("chat-inp").value = "مكونات "+ri.name; sendMsg(); };
+        sg.appendChild(sp);
+        if(i < Math.min(4, res.length)-1) sg.appendChild(document.createTextNode("، "));
+      }
+      wrap.appendChild(sg);
+    }
+    addCMsg(wrap, "bot");
+    return;
+  }
+  
+  addCMsg('ما فهمت 🤔 جرب:<br>• <em>مكونات الطبطبه</em><br>• <em>أصناف فيها فستق</em><br>• <em>كم صنف في الكشري؟</em>', "bot");
+}
+
+// ===== PWA INSTALL =====
+let deferredPrompt = null;
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  $("install-banner").classList.remove("hidden");
+});
+window.addEventListener("appinstalled", () => {
+  $("install-banner").classList.add("hidden");
+});
+function installApp(){
+  if(!deferredPrompt){
+    showToast("افتح الموقع في كروم للتثبيت", "err");
+    return;
+  }
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(()=>{
+    deferredPrompt = null;
+    $("install-banner").classList.add("hidden");
+  });
+}
+
+// ===== RESET DATA =====
+function resetMenuData(){
+  if(!isAdmin){ showToast("يجب تسجيل الدخول كمدير", "err"); return; }
+  if(!confirm("هل تريد إعادة المينيو إلى حالته الأصلية؟ سيتم فقدان جميع التعديلات.")) return;
+  D = JSON.parse(JSON.stringify(INITIAL_DATA));
+  saveData();
+  rebuildAll();
+  initSections();
+  initQuickSecs();
+  updateHeaderStats();
+  showToast("تم إعادة التعيين ✅", "ok");
+}
+
+// ===== INIT =====
+$("theme-btn").textContent = document.documentElement.getAttribute("data-theme") === "light" ? "🌙 مود داكن" : "☀️ مود فاتح";
+updateAdminUI();
+initQuickSecs();
+initSections();
+updateHeaderStats();
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("./sw.js").catch(()=>{});
+}
+</script>
+</body>
+</html>
